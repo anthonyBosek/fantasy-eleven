@@ -4,10 +4,6 @@ from config import app, db, api, jwt
 from werkzeug.exceptions import NotFound
 
 # models
-# from models.league import League
-# from models.matchup import Matchup
-# from models.player import Player
-from models.team import Team
 from models.user import User
 
 # routes
@@ -22,9 +18,9 @@ from routes.matchups import Matchups
 from routes.matchup_by_id import MatchupById
 from routes.players import Players
 from routes.player_by_id import PlayerById
+from routes.teams import Teams
+from routes.team_by_id import TeamById
 
-
-# schemas
 
 # api resources
 api.add_resource(Login, "/auth/login")
@@ -38,20 +34,18 @@ api.add_resource(Matchups, "/matchups")
 api.add_resource(MatchupById, "/matchups/<int:id>")
 api.add_resource(Players, "/players")
 api.add_resource(PlayerById, "/players/<int:id>")
+api.add_resource(Teams, "/teams")
+api.add_resource(TeamById, "/teams/<int:id>")
 
 
-# Register a callback function that loads a user from your database whenever
-# a protected route is accessed. This should return any python object on a
-# successful lookup, or None if the lookup failed for any reason (for example
-# if the user has been deleted from the database).
 @jwt.user_lookup_loader
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     return db.session.get(User, identity)
 
 
-#! Global Error Handling
-@app.errorhandler(NotFound)  #! 404
+# Global Error Handling 404
+@app.errorhandler(NotFound)
 def handle_404(error):
     response = {"message": error.description}
     return response, error.code
