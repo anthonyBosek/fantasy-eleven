@@ -24,6 +24,12 @@ class Team(db.Model, TimestampMixin):
     players = db.relationship(
         "Player", back_populates="team", cascade="all, delete-orphan"
     )
+    home_matchups = db.relationship(
+        "Matchup", foreign_keys="Matchup.home_team_id", back_populates="home_team"
+    )
+    away_matchups = db.relationship(
+        "Matchup", foreign_keys="Matchup.away_team_id", back_populates="away_team"
+    )
 
     # associations
 
