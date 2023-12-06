@@ -21,7 +21,7 @@ class MatchupSchema(ma.SQLAlchemySchema):
             "away_team_name",
         ]
 
-    week_number = fields.Integer(required=True)
+    week_number = fields.Integer(required=True, validate=validate.Range(min=1, max=38))
     league_id = fields.Integer(required=True)
     home_team_id = fields.Integer(required=True)
     away_team_id = fields.Integer(required=True)
