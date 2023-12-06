@@ -18,7 +18,7 @@ class User(db.Model, TimestampMixin):
 
     # relationships
     # user has many teams
-    # teams = db.relationship("Team", back_populates="user", cascade="all, delete-orphan")
+    teams = db.relationship("Team", back_populates="user", cascade="all, delete-orphan")
     # user has many players
     # players = db.relationship("Player", back_populates="user", cascade="all, delete-orphan")
     # user has many leagues
