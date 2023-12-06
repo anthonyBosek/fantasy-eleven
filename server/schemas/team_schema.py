@@ -2,9 +2,6 @@ from marshmallow import fields, validate
 from config import ma
 from models.team import Team
 
-# from schemas.player_schema import PlayerSchema
-# from schemas.matchup_schema import MatchupSchema
-
 
 class TeamSchema(ma.SQLAlchemySchema):
     class Meta:
