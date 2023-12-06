@@ -21,14 +21,12 @@ class League(db.Model, TimestampMixin):
     # validations
     @validates("name")
     def validate_name(self, _, name):
-        # name must be at least 2 characters
-        # name must be less than 100 characters
         if not name:
             raise AssertionError("Name is required")
         elif len(name) < 2:
             raise ValueError("Name must be at least 2 characters")
         elif len(name) > 100:
-            raise ValueError("Name must be less than 50 characters")
+            raise ValueError("Name must be less than 100 characters")
         return name
 
     # manager_id must be an instance of User & must exist & be of type int
