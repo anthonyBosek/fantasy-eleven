@@ -13,9 +13,6 @@ class MatchupSchema(ma.SQLAlchemySchema):
             "league_id",
             "home_team_id",
             "away_team_id",
-            # "league",
-            # "home_team",
-            # "away_team",
             "league_name",
             "home_team_name",
             "away_team_name",
@@ -25,9 +22,6 @@ class MatchupSchema(ma.SQLAlchemySchema):
     league_id = fields.Integer(required=True)
     home_team_id = fields.Integer(required=True)
     away_team_id = fields.Integer(required=True)
-    # league = fields.String(dump_only=True)
-    # home_team = fields.String(dump_only=True)
-    # away_team = fields.String(dump_only=True)
     league_name = fields.String(dump_only=True)
     home_team_name = fields.String(dump_only=True)
     away_team_name = fields.String(dump_only=True)

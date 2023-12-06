@@ -3,7 +3,6 @@
 from random import randint, choice as rc
 from faker import Faker
 
-# from server import create_app
 from config import app, db
 from models.user import User
 from models.league import League
@@ -13,22 +12,16 @@ from models.matchup import Matchup
 
 if __name__ == "__main__":
     fake = Faker()
+
     with app.app_context():
         print("Starting seed...")
 
-        # Seed code goes here!
-        print("Clearing db...")
+        print("Clearing tables...")
         User.query.delete()
         League.query.delete()
         Team.query.delete()
         Player.query.delete()
         Matchup.query.delete()
-
-        # seed db with 20 users,
-        # 5 leagues created from random user (each league has 4 users, knows its manager),
-        # 4 random users added to each league ,
-        # each users team has 11 random players added to each team,
-        # each player instance knows the team it belongs to
 
         print("Seeding users...")
         users = []
@@ -97,3 +90,4 @@ if __name__ == "__main__":
         db.session.commit()
 
         print("Seed complete!")
+        print("Let's get ready to rumble!")
