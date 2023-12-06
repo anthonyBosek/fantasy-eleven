@@ -24,6 +24,7 @@ class League(db.Model, TimestampMixin):
     )
 
     # associations
+    manager_name = association_proxy("manager", "username")
 
     # validations
     @validates("name")

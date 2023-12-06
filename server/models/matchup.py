@@ -31,6 +31,9 @@ class Matchup(db.Model, TimestampMixin):
     )
 
     # associations
+    league_name = association_proxy("league", "name")
+    home_team_name = association_proxy("home_team", "name")
+    away_team_name = association_proxy("away_team", "name")
 
     # validations
     @validates("week_number")

@@ -32,6 +32,8 @@ class Team(db.Model, TimestampMixin):
     )
 
     # associations
+    league_name = association_proxy("league", "name")
+    owner_name = association_proxy("owner", "username")
 
     # validations
     @validates("name")
