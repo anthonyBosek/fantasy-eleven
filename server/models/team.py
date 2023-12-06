@@ -19,6 +19,11 @@ class Team(db.Model, TimestampMixin):
     )
 
     # relationships
+    owner = db.relationship("User", back_populates="teams")
+    league = db.relationship("League", back_populates="teams")
+    players = db.relationship(
+        "Player", back_populates="team", cascade="all, delete-orphan"
+    )
 
     # associations
 
