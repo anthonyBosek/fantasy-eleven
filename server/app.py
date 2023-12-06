@@ -4,7 +4,7 @@ from config import app, db, api, jwt
 from werkzeug.exceptions import NotFound
 
 # models
-from models.league import League
+# from models.league import League
 from models.matchup import Matchup
 from models.player import Player
 from models.team import Team
@@ -16,6 +16,8 @@ from routes.auth.logout import Logout
 from routes.auth.me import Me
 from routes.auth.refresh import Refresh
 from routes.auth.register import Register
+from routes.leagues import Leagues
+from routes.league_by_id import LeagueById
 
 
 # schemas
@@ -26,6 +28,8 @@ api.add_resource(Logout, "/auth/logout")
 api.add_resource(Me, "/auth/me")
 api.add_resource(Refresh, "/auth/refresh")
 api.add_resource(Register, "/auth/register")
+api.add_resource(Leagues, "/leagues")
+api.add_resource(LeagueById, "/leagues/<int:id>")
 
 
 # Register a callback function that loads a user from your database whenever
