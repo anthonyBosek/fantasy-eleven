@@ -5,8 +5,8 @@ from werkzeug.exceptions import NotFound
 
 # models
 # from models.league import League
-from models.matchup import Matchup
-from models.player import Player
+# from models.matchup import Matchup
+# from models.player import Player
 from models.team import Team
 from models.user import User
 
@@ -18,6 +18,10 @@ from routes.auth.refresh import Refresh
 from routes.auth.register import Register
 from routes.leagues import Leagues
 from routes.league_by_id import LeagueById
+from routes.matchups import Matchups
+from routes.matchup_by_id import MatchupById
+from routes.players import Players
+from routes.player_by_id import PlayerById
 
 
 # schemas
@@ -30,6 +34,10 @@ api.add_resource(Refresh, "/auth/refresh")
 api.add_resource(Register, "/auth/register")
 api.add_resource(Leagues, "/leagues")
 api.add_resource(LeagueById, "/leagues/<int:id>")
+api.add_resource(Matchups, "/matchups")
+api.add_resource(MatchupById, "/matchups/<int:id>")
+api.add_resource(Players, "/players")
+api.add_resource(PlayerById, "/players/<int:id>")
 
 
 # Register a callback function that loads a user from your database whenever
