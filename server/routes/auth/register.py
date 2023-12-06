@@ -13,7 +13,7 @@ from schemas.user_schema import UserSchema
 user_schema = UserSchema(session=db.session)
 
 
-class Signup(Resource):
+class Register(Resource):
     def post(self):
         try:
             data = {

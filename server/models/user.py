@@ -1,10 +1,12 @@
-from . import validates, re
-from server.config import db, bcrypt
+from sqlalchemy.orm import validates
+import re
+from config import db, bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.ext.associationproxy import association_proxy
+from models.mixins import TimestampMixin
 
 
-class User(db.Model):
+class User(db.Model, TimestampMixin):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -13,8 +15,6 @@ class User(db.Model):
     username = db.Column(db.String, nullable=False, unique=True)
     email = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.DateTime, default=db.func.now())
-    updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
     # relationships
     # user has many teams
@@ -31,8 +31,6 @@ class User(db.Model):
     # validations
     @validates("first_name")
     def validate_first_name(self, _, first_name):
-        # first name must be at least 2 characters
-        # first name must be less than 50 characters
         if not first_name:
             raise AssertionError("First name is required")
         if len(first_name) < 2:
@@ -43,8 +41,6 @@ class User(db.Model):
 
     @validates("last_name")
     def validate_last_name(self, _, last_name):
-        # last name must be at least 2 characters
-        # last name must be less than 50 characters
         if not last_name:
             raise AssertionError("Last name is required")
         elif len(last_name) < 2:
@@ -55,9 +51,6 @@ class User(db.Model):
 
     @validates("username")
     def validate_username(self, _, username):
-        # username must be unique
-        # username must be at least 2 characters
-        # username must be less than 50 characters
         if not username:
             raise AssertionError("Username is required")
         elif len(username) < 2:
@@ -70,8 +63,6 @@ class User(db.Model):
 
     @validates("email")
     def validate_email(self, _, email):
-        # email must be unique
-        # email must be valid
         if not email:
             raise AssertionError("Email is required")
         elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
