@@ -18,6 +18,9 @@ class Login(Resource):
         try:
             data = request.get_json()
             user = User.query.filter_by(email=data.get("email")).first()
+            import ipdb
+
+            ipdb.set_trace()
 
             if user and user.authenticate(data.get("password")):
                 jwt = create_access_token(identity=user.id)
