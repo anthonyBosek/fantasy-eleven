@@ -3,7 +3,7 @@ import re
 from config import db, bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.ext.associationproxy import association_proxy
-from mixins import TimestampMixin
+from models.mixins import TimestampMixin
 
 
 class User(db.Model, TimestampMixin):

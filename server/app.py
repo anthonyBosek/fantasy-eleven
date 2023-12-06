@@ -4,6 +4,10 @@ from config import app, db, api, jwt
 from werkzeug.exceptions import NotFound
 
 # models
+from models.league import League
+from models.matchup import Matchup
+from models.player import Player
+from models.team import Team
 from models.user import User
 
 # routes
