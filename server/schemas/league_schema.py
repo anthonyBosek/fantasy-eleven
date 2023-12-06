@@ -1,8 +1,6 @@
 from marshmallow import fields, validate
 from config import ma
 from models.league import League
-from schemas.team_schema import TeamSchema
-from schemas.matchup_schema import MatchupSchema
 
 
 class LeagueSchema(ma.SQLAlchemySchema):
@@ -21,11 +19,25 @@ class LeagueSchema(ma.SQLAlchemySchema):
 
     name = fields.String(required=True, validate=validate.Length(min=2, max=100))
     manager_id = fields.Integer(required=True)
-    manager = fields.String(dump_only=True)
+    manager = fields.Nested(
+        "UserSchema",
+        exclude=("leagues", "teams", "home_matchups", "away_matchups"),
+        dump_only=True,
+    )
     matchups = fields.List(
-        fields.Nested(MatchupSchema, exclude=("league",), many=True, dump_only=True)
+        fields.Nested(
+            "MatchupSchema",
+            exclude=("league",),
+            # only=("week_number", "home_team_id", "away_team_id"),
+            dump_only=True,
+        )
     )
     teams = fields.List(
-        fields.Nested(TeamSchema, exclude=("league",), many=True, dump_only=True)
+        fields.Nested(
+            "TeamSchema",
+            # exclude=("league", "players", "home_matchups", "away_matchups"),
+            only=("id", "name", "owner_id"),
+            dump_only=True,
+        )
     )
     manager_name = fields.String(dump_only=True)
