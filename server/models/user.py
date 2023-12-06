@@ -20,9 +20,9 @@ class User(db.Model, TimestampMixin):
     teams = db.relationship(
         "Team", back_populates="owner", cascade="all, delete-orphan"
     )
-    players = db.relationship(
-        "Player", back_populates="owner", cascade="all, delete-orphan"
-    )
+    # players = db.relationship(
+    #     "Player", back_populates="owner", cascade="all, delete-orphan"
+    # )
     leagues = db.relationship(
         "League", back_populates="manager", cascade="all, delete-orphan"
     )
@@ -56,16 +56,17 @@ class User(db.Model, TimestampMixin):
         return last_name
 
     @validates("username")
-    def validate_username(self, _, username):
-        if not username:
+    def validate_username(self, _, new_username):
+        if not new_username:
             raise AssertionError("Username is required")
-        elif len(username) < 2:
+        elif len(new_username) < 2:
             raise ValueError("Username must be at least 2 characters")
-        elif len(username) > 50:
+        elif len(new_username) > 50:
             raise ValueError("Username must be less than 50 characters")
-        elif User.query().filter_by(username=username).first():
-            raise ValueError("Username is already taken")
-        return username
+        # elif User.query().filter_by(username=username).first():
+        # elif not db.session.get(User, username=new_username):
+        # raise ValueError("Username is already taken")
+        return new_username
 
     @validates("email")
     def validate_email(self, _, email):
@@ -73,8 +74,9 @@ class User(db.Model, TimestampMixin):
             raise AssertionError("Email is required")
         elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
             raise ValueError("Email must be valid")
-        elif User.query().filter_by(email=email).first():
-            raise ValueError("Email is already taken")
+        # elif User.query().filter_by(email=email).first():
+        # elif not db.session.get(User, email=email):
+        #     raise ValueError("Email is already taken")
         return email
 
     @hybrid_property
