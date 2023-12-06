@@ -15,7 +15,7 @@ class TeamById(Resource):
         except Exception as e:
             return {"message": str(e)}, 500
 
-    def put(self, team_id):
+    def patch(self, team_id):
         try:
             data = request.json
             team_schema.validate(data)
