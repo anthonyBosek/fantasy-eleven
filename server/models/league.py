@@ -38,7 +38,7 @@ class League(db.Model, TimestampMixin):
             raise AssertionError("Manager ID is required")
         elif type(manager_id) is not int:
             raise AssertionError("Manager ID must be of type int")
-        elif not User.query.get(manager_id):
+        elif not db.session.get(User, manager_id):
             raise ValueError("Manager ID must exist")
         return manager_id
 
