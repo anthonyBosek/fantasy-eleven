@@ -3,9 +3,10 @@ import re
 from config import db, bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.ext.associationproxy import association_proxy
+from mixins import TimestampMixin
 
 
-class User(db.Model):
+class User(db.Model, TimestampMixin):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -14,8 +15,8 @@ class User(db.Model):
     username = db.Column(db.String, nullable=False, unique=True)
     email = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.DateTime, default=db.func.now())
-    updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+    # created_at = db.Column(db.DateTime, default=db.func.now())
+    # updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
     # relationships
     # user has many teams
