@@ -16,8 +16,11 @@ class Player(db.Model, TimestampMixin):
     )
 
     # relationships
+    team = db.relationship("Team", back_populates="players")
 
     # associations
+    owner = association_proxy("team", "owner")
+    league = association_proxy("team", "league")
 
     # validations
     @validates("name")

@@ -17,16 +17,20 @@ class User(db.Model, TimestampMixin):
     _password_hash = db.Column(db.String, nullable=False)
 
     # relationships
-    # user has many teams
-    # teams = db.relationship("Team", back_populates="user", cascade="all, delete-orphan")
-    # user has many players
-    # players = db.relationship("Player", back_populates="user", cascade="all, delete-orphan")
-    # user has many leagues
-    # leagues = db.relationship("League", back_populates="user", cascade="all, delete-orphan")
-    # user has many matches
-    # matches = db.relationship("Match", back_populates="user", cascade="all, delete-orphan")
+    teams = db.relationship(
+        "Team", back_populates="owner", cascade="all, delete-orphan"
+    )
+    players = db.relationship(
+        "Player", back_populates="owner", cascade="all, delete-orphan"
+    )
+    leagues = db.relationship(
+        "League", back_populates="manager", cascade="all, delete-orphan"
+    )
 
     # associations
+    team_names = association_proxy("teams", "name")
+    player_names = association_proxy("players", "name")
+    league_names = association_proxy("leagues", "name")
 
     # validations
     @validates("first_name")

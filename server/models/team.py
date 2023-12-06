@@ -19,8 +19,21 @@ class Team(db.Model, TimestampMixin):
     )
 
     # relationships
+    owner = db.relationship("User", back_populates="teams")
+    league = db.relationship("League", back_populates="teams")
+    players = db.relationship(
+        "Player", back_populates="team", cascade="all, delete-orphan"
+    )
+    home_matchups = db.relationship(
+        "Matchup", foreign_keys="Matchup.home_team_id", back_populates="home_team"
+    )
+    away_matchups = db.relationship(
+        "Matchup", foreign_keys="Matchup.away_team_id", back_populates="away_team"
+    )
 
     # associations
+    league_name = association_proxy("league", "name")
+    owner_name = association_proxy("owner", "username")
 
     # validations
     @validates("name")

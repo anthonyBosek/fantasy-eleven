@@ -22,8 +22,18 @@ class Matchup(db.Model, TimestampMixin):
     )
 
     # relationships
+    league = db.relationship("League", back_populates="matchups")
+    home_team = db.relationship(
+        "Team", foreign_keys=[home_team_id], back_populates="home_matchups"
+    )
+    away_team = db.relationship(
+        "Team", foreign_keys=[away_team_id], back_populates="away_matchups"
+    )
 
     # associations
+    league_name = association_proxy("league", "name")
+    home_team_name = association_proxy("home_team", "name")
+    away_team_name = association_proxy("away_team", "name")
 
     # validations
     @validates("week_number")
