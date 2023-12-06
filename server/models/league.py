@@ -15,6 +15,13 @@ class League(db.Model, TimestampMixin):
     )
 
     # relationships
+    manager = db.relationship("User", back_populates="leagues")
+    matchups = db.relationship(
+        "Matchup", back_populates="league", cascade="all, delete-orphan"
+    )
+    teams = db.relationship(
+        "Team", back_populates="league", cascade="all, delete-orphan"
+    )
 
     # associations
 
