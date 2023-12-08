@@ -1,11 +1,15 @@
 export const getToken = () => localStorage.getItem("jwt_token");
+
 export const getRefreshToken = () => localStorage.getItem("refresh_token");
+
 export const setToken = (token) => localStorage.setItem("jwt_token", token);
+
 export const setRefreshToken = (token) =>
   localStorage.setItem("refresh_token", token);
+
 export const checkToken = async () => {
   try {
-    const resp = await fetch("/check", {
+    const resp = await fetch("/auth/check", {
       headers: {
         //! NOTICE HERE I send the refresh token since I know the access token is expired
         Authorization: `Bearer ${getToken()}`,
@@ -28,8 +32,9 @@ export const checkToken = async () => {
     return error;
   }
 };
+
 export const postRefreshToken = async () => {
-  const resp = await fetch("/refresh", {
+  const resp = await fetch("/auth/refresh", {
     method: "POST",
     headers: {
       //! NOTICE HERE I send the refresh token since I know the access token is expired

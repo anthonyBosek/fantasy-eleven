@@ -47,6 +47,7 @@ const App = () => {
         <Authentication />
       </>
     );
+
   return (
     <>
       <Toaster />
