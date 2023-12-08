@@ -31,7 +31,7 @@ api.add_resource(Logout, "/auth/logout")
 api.add_resource(Me, "/auth/me")
 api.add_resource(Refresh, "/auth/refresh")
 api.add_resource(Register, "/auth/register")
-api.add_resource(CheckToken, "/check")
+api.add_resource(CheckToken, "/auth/check")
 
 api.add_resource(Leagues, "/leagues")
 api.add_resource(LeagueById, "/leagues/<int:id>")
