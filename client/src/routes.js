@@ -1,5 +1,6 @@
 import App from "./App";
 import ErrorPage from "./components/errorPage";
+import Nav from "./components/navbar";
 
 const routes = [
   {
@@ -7,11 +8,11 @@ const routes = [
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      // {
-      //   path: "/",
-      //   index: true,
-      //   element: <HomePage />,
-      // },
+      {
+        path: "/",
+        index: true,
+        element: <Nav />,
+      },
       //   {
       //     path: "/",
       //     element: <Authentication />
