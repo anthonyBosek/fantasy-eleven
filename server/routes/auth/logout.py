@@ -8,7 +8,7 @@ from flask_jwt_extended import (
 
 class Logout(Resource):
     def delete(self):
-        res = make_response({}, 204)
+        res = make_response({"message": "Logged Out"}, 204)
         unset_access_cookies(res)
         unset_refresh_cookies(res)
         return res

@@ -6,12 +6,15 @@ from werkzeug.exceptions import NotFound
 # models
 from models.user import User
 
-# routes
+# auth
 from routes.auth.login import Login
 from routes.auth.logout import Logout
 from routes.auth.me import Me
 from routes.auth.refresh import Refresh
 from routes.auth.register import Register
+from routes.auth.check_token import CheckToken
+
+# routes
 from routes.leagues import Leagues
 from routes.league_by_id import LeagueById
 from routes.matchups import Matchups
@@ -28,6 +31,8 @@ api.add_resource(Logout, "/auth/logout")
 api.add_resource(Me, "/auth/me")
 api.add_resource(Refresh, "/auth/refresh")
 api.add_resource(Register, "/auth/register")
+api.add_resource(CheckToken, "/auth/check")
+
 api.add_resource(Leagues, "/leagues")
 api.add_resource(LeagueById, "/leagues/<int:id>")
 api.add_resource(Matchups, "/matchups")
@@ -44,7 +49,6 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return db.session.get(User, identity)
 
 
-# Global Error Handling 404
 @app.errorhandler(NotFound)
 def handle_404(error):
     response = {"message": error.description}
