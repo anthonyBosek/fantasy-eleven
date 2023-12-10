@@ -1,142 +1,204 @@
 import { useState } from "react";
-import { useFormik } from "formik";
-import * as yup from "yup";
 import { useDispatch } from "react-redux";
+import { Formik } from "formik";
+import * as yup from "yup";
+import toast from "react-hot-toast";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import Copyright from "../../components/copyright";
+import logo from "../../assets/images/logo.png";
 import { fetchRegister } from "./userSlice";
 import { setToken, setRefreshToken } from "../../utils/main";
-import toast from "react-hot-toast";
-import Login from "./login";
 import "../../styles/auth.css";
-import Register from "./register";
 
-function Authentication() {
-  const [signUp, setSignUp] = useState(false);
+const registerSchema = yup.object().shape({
+  first_name: yup.string().required("First name is required"),
+  last_name: yup.string().required("Last name is required"),
+  username: yup.string().required("Username is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(
+      /[a-zA-Z0-9]/,
+      "Only alphanumeric characters allowed for password"
+    ),
+});
+
+const loginSchema = yup.object().shape({
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup.string().required("Password is required"),
+});
+
+const initialValuesRegister = {
+  first_name: "",
+  last_name: "",
+  username: "",
+  email: "",
+  password: "",
+};
+
+const initialValuesLogin = {
+  email: "",
+  password: "",
+};
+
+const Authentication = () => {
   const dispatch = useDispatch();
+  const [isReg, setIsReg] = useState(false);
 
-  const signupSchema = yup.object().shape({
-    first_name: yup.string().required("Please enter a first name"),
-    last_name: yup.string().required("Please enter a last name"),
-    username: yup.string().required("Please enter a user name"),
-    email: yup
-      .string()
-      .email("Must be a valid email")
-      .required("Please enter a user email"),
-    password: yup
-      .string()
-      .required("Please enter a user password")
-      .min(8, "Password is too short - should be 8 chars minimum.")
-      .matches(
-        /[a-zA-Z0-9]/,
-        "Password can only contain Latin letters and numbers."
-      ),
-  });
-  const loginSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email("Must be a valid email")
-      .required("Please enter a user email"),
-    password: yup.string().required("Please enter a user password"),
-  });
-  const url = signUp ? "/auth/register" : "/auth/login";
+  const url = isReg ? "/auth/register" : "/auth/login";
 
-  const formik = useFormik({
-    initialValues: {
-      first_name: "",
-      last_name: "",
-      username: "",
-      email: "",
-      password: "",
-    },
-    validationSchema: signUp ? signupSchema : loginSchema,
-    onSubmit: async (values) => {
-      const action = await dispatch(fetchRegister({ url, values }));
-      if (typeof action.payload !== "string") {
-        toast.success(`Welcome ${action.payload.user.username}!`);
-        setToken(action.payload.jwt_token);
-        setRefreshToken(action.payload.refresh_token);
-      } else {
-        toast.error(action.payload);
-      }
-    },
-  });
+  const handleToggle = () => setIsReg((isReg) => !isReg);
 
-  const handleClick = () => setSignUp((signUp) => !signUp);
+  const handleFormSubmit = async (values) => {
+    const action = await dispatch(fetchRegister({ url, values }));
+    if (typeof action.payload !== "string") {
+      toast.success(`Welcome ${action.payload.user.username}!`);
+      setToken(action.payload.jwt_token);
+      setRefreshToken(action.payload.refresh_token);
+    } else {
+      toast.error(action.payload);
+    }
+  };
 
   return (
     <div id="auth">
-      {/* <Login /> */}
-      <Register />
-      {/* <div id="register-switch">
-        <div onClick={handleClick}>{signUp ? "Log In" : "Register"}</div>
-      </div>
-      <form onSubmit={formik.handleSubmit}>
-        {signUp && (
-          <>
-            <label htmlFor="first_name">First Name</label>
-            <input
-              type="text"
-              name="first_name"
-              value={formik.values.first_name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.errors.first_name && formik.touched.first_name ? (
-              <div className="error-message show">
-                {formik.errors.first_name}
-              </div>
-            ) : null}
-            <label htmlFor="last_name">Last Name</label>
-            <input
-              type="text"
-              name="last_name"
-              value={formik.values.last_name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.errors.last_name && formik.touched.last_name ? (
-              <div className="error-message show">
-                {formik.errors.last_name}
-              </div>
-            ) : null}
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              name="username"
-              value={formik.values.username}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.errors.username && formik.touched.username ? (
-              <div className="error-message show">{formik.errors.username}</div>
-            ) : null}
-          </>
-        )}
-        <label htmlFor="email">Email</label>
-        <input
-          type="text"
-          name="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        />
-        {formik.errors.email && formik.touched.email ? (
-          <div className="error-message show">{formik.errors.email}</div>
-        ) : null}
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        />
-        {formik.errors.password && formik.touched.password ? (
-          <div className="error-message show">{formik.errors.password}</div>
-        ) : null}
-        <input type="submit" value={signUp ? "Sign Up!" : "Log In!"} />
-      </form> */}
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <img src={logo} alt="logo" className="auth-logo" />
+          <Typography component="h1" variant="h4" fontFamily="Oswald">
+            {isReg ? "Register" : "Log In"}
+          </Typography>
+          <Formik
+            onSubmit={handleFormSubmit}
+            initialValues={isReg ? initialValuesRegister : initialValuesLogin}
+            validationSchema={isReg ? registerSchema : loginSchema}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleBlur,
+              handleChange,
+              handleSubmit,
+              resetForm,
+            }) => (
+              <Box
+                component="form"
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 3 }}
+              >
+                <Grid container spacing={2}>
+                  {isReg && (
+                    <>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          type="text"
+                          label="First Name"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.first_name}
+                          name="first_name"
+                          error={!!touched.first_name && !!errors.first_name}
+                          helperText={touched.first_name && errors.first_name}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          type="text"
+                          label="Last Name"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.last_name}
+                          name="last_name"
+                          error={!!touched.last_name && !!errors.last_name}
+                          helperText={touched.last_name && errors.last_name}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          type="text"
+                          label="Username"
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          value={values.username}
+                          name="username"
+                          error={!!touched.username && !!errors.username}
+                          helperText={touched.username && errors.username}
+                        />
+                      </Grid>
+                    </>
+                  )}
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      type="text"
+                      label="Email Address"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.email}
+                      name="email"
+                      error={!!touched.email && !!errors.email}
+                      helperText={touched.email && errors.email}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      type="password"
+                      label="Password"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      value={values.password}
+                      name="password"
+                      error={!!touched.password && !!errors.password}
+                      helperText={touched.password && errors.password}
+                    />
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  {isReg ? "Sign Up" : "Sign In"}
+                </Button>
+                <Grid container justifyContent="flex-end">
+                  <Grid item>
+                    <Link href="#" variant="body2" onClick={handleToggle}>
+                      {isReg
+                        ? "Already have an account? Log in"
+                        : "Don't have an account? Register"}
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Box>
+            )}
+          </Formik>
+        </Box>
+        <Copyright sx={{ mt: 5 }} />
+      </Container>
     </div>
   );
-}
+};
 
 export default Authentication;

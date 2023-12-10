@@ -10,7 +10,7 @@ import Container from "@mui/material/Container";
 import Copyright from "../../components/copyright";
 import logo from "../../assets/images/logo.png";
 
-const Login = () => {
+const Login = ({ formToggle }) => {
   const [formData, setFormData] = useState({});
 
   const handleChange = (e) => {};
@@ -70,7 +70,7 @@ const Login = () => {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" onClick={formToggle}>
                 Don't have an account? Register
               </Link>
             </Grid>

@@ -1,6 +1,6 @@
 #auth {
   clear: both;
-  margin-top: 80px;
+  margin-top: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,4 +10,5 @@
 .auth-logo {
   height: 70px;
   width: 70px;
+  margin-bottom: 6px;
 }

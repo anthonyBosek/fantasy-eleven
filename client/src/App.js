@@ -45,7 +45,8 @@ const App = () => {
     <>
       <Toaster />
       <Header />
-      {!user ? <Authentication /> : <Outlet />}
+      {/* {!user ? <Authentication /> : <Outlet />} */}
+      <Outlet />
     </>
   );
 };
