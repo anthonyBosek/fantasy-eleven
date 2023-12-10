@@ -6,6 +6,7 @@ import { clearErrors as clearUserErrors } from "./features/user/userSlice";
 import { fetchCurrentUser } from "./features/user/userSlice";
 import Authentication from "./features/user/auth";
 import { setToken } from "./utils/main";
+import Header from "./components/header";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -17,41 +18,34 @@ const App = () => {
     dispatch(clearUserErrors(""));
   }, [dispatch]);
 
-  useEffect(() => {
-    (async () => {
-      if (!user) {
-        const action = await dispatch(fetchCurrentUser());
-        if (typeof action.payload !== "string") {
-          if (action.payload.flag === "refresh") {
-            setToken(action.payload.jwt_token);
-          }
-        }
-      }
-    })();
-  }, [user, dispatch]);
+  // useEffect(() => {
+  //   (async () => {
+  //     if (!user) {
+  //       const action = await dispatch(fetchCurrentUser());
+  //       if (typeof action.payload !== "string") {
+  //         if (action.payload.flag === "refresh") {
+  //           setToken(action.payload.jwt_token);
+  //         }
+  //       }
+  //     }
+  //   })();
+  // }, [user, dispatch]);
 
-  useEffect(() => {
-    if (errors.length) {
-      clearErrorsAction();
-      // const timeout = setTimeout(clearErrorsAction, 3000)
-      // return () => {
-      //   clearTimeout(timeout)
-      // };
-    }
-  }, [errors, clearErrorsAction]);
-
-  if (!user)
-    return (
-      <>
-        <Toaster />
-        <Authentication />
-      </>
-    );
+  // useEffect(() => {
+  //   if (errors.length) {
+  //     clearErrorsAction();
+  //     // const timeout = setTimeout(clearErrorsAction, 3000)
+  //     // return () => {
+  //     //   clearTimeout(timeout)
+  //     // };
+  //   }
+  // }, [errors, clearErrorsAction]);
 
   return (
     <>
       <Toaster />
-      <Outlet />
+      <Header />
+      {!user ? <Authentication /> : <Outlet />}
     </>
   );
 };

@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
 import { fetchRegister } from "./userSlice";
 import { setToken, setRefreshToken } from "../../utils/main";
 import toast from "react-hot-toast";
+import Login from "./login";
+import "../../styles/auth.css";
+import Register from "./register";
 
 function Authentication() {
   const [signUp, setSignUp] = useState(false);
@@ -60,9 +63,10 @@ function Authentication() {
   const handleClick = () => setSignUp((signUp) => !signUp);
 
   return (
-    <>
-      <div id="register-switch">
-        {/* <h3>{signUp ? "Already a member?" : "Not a member?"}</h3> */}
+    <div id="auth">
+      {/* <Login /> */}
+      <Register />
+      {/* <div id="register-switch">
         <div onClick={handleClick}>{signUp ? "Log In" : "Register"}</div>
       </div>
       <form onSubmit={formik.handleSubmit}>
@@ -130,8 +134,8 @@ function Authentication() {
           <div className="error-message show">{formik.errors.password}</div>
         ) : null}
         <input type="submit" value={signUp ? "Sign Up!" : "Log In!"} />
-      </form>
-    </>
+      </form> */}
+    </div>
   );
 }
 
