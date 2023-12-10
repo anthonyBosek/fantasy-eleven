@@ -1,7 +1,7 @@
 const Nav = () => {
   return (
     <nav>
-      <h1>TEST</h1>
+      <h1>Nav</h1>
     </nav>
   );
 };
