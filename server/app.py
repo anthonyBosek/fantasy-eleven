@@ -12,7 +12,6 @@ from routes.auth.logout import Logout
 from routes.auth.me import Me
 from routes.auth.refresh import Refresh
 from routes.auth.register import Register
-from routes.auth.check_token import CheckToken
 
 # routes
 from routes.leagues import Leagues
@@ -31,7 +30,6 @@ api.add_resource(Logout, "/auth/logout")
 api.add_resource(Me, "/auth/me")
 api.add_resource(Refresh, "/auth/refresh")
 api.add_resource(Register, "/auth/register")
-api.add_resource(CheckToken, "/auth/check")
 
 api.add_resource(Leagues, "/leagues")
 api.add_resource(LeagueById, "/leagues/<int:id>")

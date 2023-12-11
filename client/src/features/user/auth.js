@@ -14,7 +14,6 @@ import Container from "@mui/material/Container";
 import Copyright from "../../components/copyright";
 import logo from "../../assets/images/logo.png";
 import { fetchRegister } from "./userSlice";
-import { setToken, setRefreshToken } from "../../utils/main";
 import "../../styles/auth.css";
 
 const registerSchema = yup.object().shape({
@@ -52,7 +51,7 @@ const initialValuesLogin = {
 
 const Authentication = () => {
   const dispatch = useDispatch();
-  const [isReg, setIsReg] = useState(false);
+  const [isReg, setIsReg] = useState(true);
 
   const url = isReg ? "/auth/register" : "/auth/login";
 
@@ -61,9 +60,12 @@ const Authentication = () => {
   const handleFormSubmit = async (values) => {
     const action = await dispatch(fetchRegister({ url, values }));
     if (typeof action.payload !== "string") {
-      toast.success(`Welcome ${action.payload.user.username}!`);
-      setToken(action.payload.jwt_token);
-      setRefreshToken(action.payload.refresh_token);
+      console.log("action.payload", action.payload);
+      const username = action.payload.user
+        ? action.payload.user.username
+        : action.payload.username;
+      toast.success(`Welcome ${username}!`);
+      console.log("action.payload", action.payload);
     } else {
       toast.error(action.payload);
     }

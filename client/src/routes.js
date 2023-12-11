@@ -1,6 +1,10 @@
 import App from "./App";
 import ErrorPage from "./components/errorPage";
-import Nav from "./components/navbar";
+import Home from "./pages/home";
+import Authentication from "./features/user/auth";
+import PremierLeague from "./pages/premierLeague";
+import Fantasy from "./pages/fantasy";
+import Dashboard from "./pages/dashboard";
 
 const routes = [
   {
@@ -11,16 +15,24 @@ const routes = [
       {
         path: "/",
         index: true,
-        element: <Nav />,
+        element: <Home />,
       },
-      //   {
-      //     path: "/",
-      //     element: <Authentication />
-      //   },
-      //   {
-      //     path: "/users/:id/dashboard",
-      //     element: <Dashboard />,
-      //   },
+      {
+        path: "/auth",
+        element: <Authentication />,
+      },
+      {
+        path: "/premier-league",
+        element: <PremierLeague />,
+      },
+      {
+        path: "/fantasy",
+        element: <Fantasy />,
+      },
+      {
+        path: "/users/:id/dashboard",
+        element: <Dashboard />,
+      },
     ],
   },
 ];

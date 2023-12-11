@@ -1,0 +1,42 @@
+nav {
+  clear: both;
+  width: 100vw;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  font-family: "Oswald", sans-serif;
+}
+.nav-box {
+  max-width: 70%;
+  height: 40px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+.nav-links {
+  width: 70%;
+  display: flex;
+}
+.nav-links a {
+  color: #76766f;
+  text-decoration: none;
+  margin: 0 3rem;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+  font-weight: 500;
+}
+.nav-links a:hover {
+  color: #333333;
+}
+.nav-links a.active {
+  color: #333333;
+  border-bottom: 2px solid #333;
+}
+.nav-btns {
+  width: 30%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.nav-btns a {
+  margin: 0 2rem;
+}

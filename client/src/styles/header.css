@@ -10,6 +10,8 @@
   );
   border-bottom: 1px solid #381d54;
   box-shadow: 0 0 10px #381d54;
+  position: relative;
+  z-index: 1;
 }
 .hdr-lt {
   display: flex;

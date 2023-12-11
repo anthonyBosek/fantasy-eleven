@@ -1,5 +1,5 @@
 import { buildCreateSlice, asyncThunkCreator } from "@reduxjs/toolkit";
-import { getToken, getRefreshToken } from "../../utils/main";
+import { getCookie } from "../../utils/main";
 
 export const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -35,7 +35,7 @@ const fetchMe = async () => {
   try {
     const resp = await fetch("/auth/me", {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        "X-CSRF-TOKEN": getCookie("csrf_access_token"),
       },
     });
     const data = await resp.json();
@@ -45,7 +45,7 @@ const fetchMe = async () => {
       const response = await fetch("/auth/refresh", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${getRefreshToken()}`,
+          "X-CSRF-TOKEN": getCookie("csrf_refresh_token"),
         },
       });
       const data = await response.json();
