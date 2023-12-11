@@ -1,0 +1,47 @@
+#hdr {
+  height: 80px;
+  width: 100vw;
+  background-image: linear-gradient(
+    to right,
+    #05f7fc,
+    #07f9a0,
+    #3dfe44,
+    #c7ff12
+  );
+  border-bottom: 1px solid #381d54;
+  box-shadow: 0 0 10px #381d54;
+  position: relative;
+  z-index: 1;
+}
+.hdr-lt {
+  display: flex;
+  align-items: center;
+  margin-left: 60px;
+  font-family: "Sriracha", cursive;
+}
+.hdr-lt img {
+  height: 70px;
+  width: 70px;
+  margin-left: 20px;
+  margin-top: 5px;
+}
+.hdr-title {
+  margin-left: 20px;
+  color: #381d54;
+  font-size: 2rem;
+  font-weight: 700;
+}
+.hdr-rt {
+  float: right;
+  height: 85px;
+  width: 25vw;
+  background: #381d54;
+}
+.hdr-rt-box {
+  height: 120px;
+  width: 120px;
+  margin-top: -60px;
+  margin-left: -60px;
+  background: #381d54;
+  transform: rotate(45deg);
+}

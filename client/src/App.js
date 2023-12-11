@@ -1,17 +1,18 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { clearErrors as clearUserErrors } from "./features/user/userSlice";
 import { fetchCurrentUser } from "./features/user/userSlice";
-import Authentication from "./features/user/auth";
-import { setToken } from "./utils/main";
+import Header from "./components/header";
+import Nav from "./components/navbar";
 
 const App = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user.data);
   const userErrors = useSelector((state) => state.user.errors);
-  const errors = [...userErrors];
+  const errors = useMemo(() => userErrors, [userErrors]);
 
   const clearErrorsAction = useCallback(() => {
     dispatch(clearUserErrors(""));
@@ -23,34 +24,26 @@ const App = () => {
         const action = await dispatch(fetchCurrentUser());
         if (typeof action.payload !== "string") {
           if (action.payload.flag === "refresh") {
-            setToken(action.payload.jwt_token);
+            console.log("refresh token", action.payload);
           }
         }
+      } else {
+        navigate("/");
       }
     })();
-  }, [user, dispatch]);
+  }, [user, dispatch, navigate]);
 
   useEffect(() => {
     if (errors.length) {
       clearErrorsAction();
-      // const timeout = setTimeout(clearErrorsAction, 3000)
-      // return () => {
-      //   clearTimeout(timeout)
-      // };
     }
   }, [errors, clearErrorsAction]);
-
-  if (!user)
-    return (
-      <>
-        <Toaster />
-        <Authentication />
-      </>
-    );
 
   return (
     <>
       <Toaster />
+      <Header />
+      <Nav />
       <Outlet />
     </>
   );

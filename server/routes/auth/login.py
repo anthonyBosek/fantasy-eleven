@@ -23,14 +23,10 @@ class Login(Resource):
                 jwt = create_access_token(identity=user.id)
                 refresh_token = create_refresh_token(identity=user.id)
                 serialized_user = user_schema.dump(user)
-                return make_response(
-                    {
-                        "user": serialized_user,
-                        "jwt_token": jwt,
-                        "refresh_token": refresh_token,
-                    },
-                    201,
-                )
+                response = make_response(serialized_user, 200)
+                set_access_cookies(response, jwt)
+                set_refresh_cookies(response, refresh_token)
+                return response
 
             return {"message": "Invalid User Credentials"}, 403
 
