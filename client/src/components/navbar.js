@@ -48,7 +48,7 @@ const Nav = () => {
         <div className="nav-links">
           <NavLink to="/">Home</NavLink>
           <NavLink to="/premier-league">Premier League</NavLink>
-          <NavLink to="/Fantasy">Fantasy</NavLink>
+          <NavLink to="/fantasy">Fantasy</NavLink>
           {user && (
             <NavLink to={`/users/${user.id}/dashboard`}>Dashboard</NavLink>
           )}
