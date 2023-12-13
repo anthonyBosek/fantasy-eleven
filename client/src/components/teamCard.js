@@ -1,12 +1,16 @@
-import * as React from "react";
+import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import { randomThumb } from "../utils/main";
+import { Button } from "@mui/material";
 
-const TeamCard = ({ team, venue }) => {
+const LeagueCard = ({ isOwn, league, handleAdd, handleEdit, handleDelete }) => {
+  const user = useSelector((state) => state.user.data);
+
   return (
     <Grid
       item
@@ -18,29 +22,55 @@ const TeamCard = ({ team, venue }) => {
         <CardMedia
           component="img"
           sx={{ width: 151 }}
-          image={team.logo}
-          alt={team.code}
+          image={randomThumb()}
+          alt={league.name}
         />
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <CardContent sx={{ flex: "1 0 auto" }}>
             <Typography component="div" variant="h5">
-              {team.name}
+              {league.name}
             </Typography>
             <Typography
               variant="subtitle1"
               color="text.secondary"
               component="div"
             >
-              {venue.name}
+              {league.manager_name}
             </Typography>
           </CardContent>
-          <Box
-            sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}
-          ></Box>
+          {user && (
+            <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
+              <Button
+                size="small"
+                variant="contained"
+                onClick={() => handleAdd(league.id)}
+              >
+                {isOwn ? "Add Team" : "Join League"}
+              </Button>
+              {isOwn && (
+                <>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    onClick={() => handleEdit(league.id)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    onClick={() => handleDelete(league.id)}
+                  >
+                    Delete
+                  </Button>
+                </>
+              )}
+            </Box>
+          )}
         </Box>
       </Card>
     </Grid>
   );
 };
 
-export default TeamCard;
+export default LeagueCard;

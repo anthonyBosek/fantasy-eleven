@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -9,13 +8,8 @@ import Typography from "@mui/material/Typography";
 import { randomThumb } from "../utils/main";
 import { Button } from "@mui/material";
 
-const LeagueCard = ({ isOwn, league, handleClick }) => {
+const LeagueCard = ({ isOwn, league, handleAdd, handleEdit, handleDelete }) => {
   const user = useSelector((state) => state.user.data);
-
-  const handleDelete = () => {
-    //! DELETE axios request
-    console.log("delete");
-  };
 
   return (
     <Grid
@@ -46,13 +40,30 @@ const LeagueCard = ({ isOwn, league, handleClick }) => {
           </CardContent>
           {user && (
             <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-              <Button size="small" variant="contained" onClick={handleClick}>
-                {isOwn ? "Edit" : "Join"}
+              <Button
+                size="small"
+                variant="contained"
+                onClick={() => handleAdd(league.id)}
+              >
+                {isOwn ? "Add Team" : "Join League"}
               </Button>
               {isOwn && (
-                <Button size="small" variant="contained" onClick={handleDelete}>
-                  Delete
-                </Button>
+                <>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    onClick={() => handleEdit(league.id)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    onClick={() => handleDelete(league.id)}
+                  >
+                    Delete
+                  </Button>
+                </>
               )}
             </Box>
           )}

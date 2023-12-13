@@ -27,12 +27,12 @@ const App = () => {
             console.log("refresh token", action.payload);
           }
         } else {
-          console.log("error", action.payload);
-          toast.error("Token expired. Please log in again.");
-          // navigate("/");
+          // console.log("error", action.payload);
+          // toast.error("Token expired. Please log in again.");
+          navigate("/");
         }
       } else {
-        console.log("user", user);
+        // console.log("user", user);
         navigate(`/users/${user.id}/dashboard/`);
       }
     })();

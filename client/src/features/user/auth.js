@@ -60,12 +60,12 @@ const Authentication = () => {
   const handleFormSubmit = async (values) => {
     const action = await dispatch(fetchRegister({ url, values }));
     if (typeof action.payload !== "string") {
-      console.log("action.payload", action.payload);
+      // console.log("action.payload", action.payload);
       const username = action.payload.user
         ? action.payload.user.username
         : action.payload.username;
       toast.success(`Welcome ${username}!`);
-      console.log("action.payload", action.payload);
+      // console.log("action.payload", action.payload);
     } else {
       toast.error(action.payload);
     }

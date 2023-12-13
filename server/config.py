@@ -22,9 +22,9 @@ app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"
 #! In production, this should always be set to True
 app.config["JWT_COOKIE_SECURE"] = False
 #! Change time in production
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=1)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=10)
 #! Change time in production
-app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(minutes=15)
+app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=1)
 #! Restricts JWT to https protocols only
 #! app.config["JWT_COOKIE_CSRF_PROTECT"] = True
 CORS(app)
