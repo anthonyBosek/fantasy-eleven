@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -18,12 +19,28 @@ const initialValues = {
   name: "",
 };
 
-const LeagueForm = ({ isEdit, handleEdit, league }) => {
+const LeagueForm = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.data);
+  const [league, setLeague] = useState({});
+
+  useEffect(() => {
+    const getLeague = async () => {
+      try {
+        const res = await axios.get(`/leagues/${id}`);
+        setLeague(res.data);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+    if (id) {
+      getLeague();
+    }
+  }, [id]);
 
   const handleFormSubmit = async (values) => {
-    if (!isEdit) {
+    if (!id) {
       values.manager_id = user.id;
       try {
         const res = await axios({
@@ -35,11 +52,9 @@ const LeagueForm = ({ isEdit, handleEdit, league }) => {
           },
           data: JSON.stringify(values),
         });
-        console.log(res);
-        handleEdit(false, res.data);
+        navigate(`/users/${user.id}/dashboard/`);
         toast.success("League created");
       } catch (err) {
-        console.log(err);
         toast.error(err.message);
       }
     } else {
@@ -55,15 +70,18 @@ const LeagueForm = ({ isEdit, handleEdit, league }) => {
           },
           data: JSON.stringify(values),
         });
-        console.log(res);
-        handleEdit(false, res.data);
-        // navigate("/fantasy");
+        navigate(`/users/${user.id}/dashboard/`);
         toast.success("League updated", {
-          duration: 3000,
-          position: "top-right",
+          duration: 4000,
+          // position: "top-right",
+          // style: {
+          //   border: "1px solid #333",
+          //   backgroundImage: "linear-gradient(to right, #f61a71, #ff311e)",
+          //   padding: "10px",
+          //   color: "#333",
+          // },
         });
       } catch (err) {
-        console.log(err);
         toast.error(err.message);
       }
     }
@@ -71,11 +89,11 @@ const LeagueForm = ({ isEdit, handleEdit, league }) => {
 
   return (
     <div>
-      <h1>{isEdit ? "Edit" : "New"} League Form</h1>
+      <h1>{id ? "Edit" : "New"} League Form</h1>
       <Formik
         onSubmit={handleFormSubmit}
         enableReinitialize={true}
-        initialValues={isEdit ? league : initialValues}
+        initialValues={id ? league : initialValues}
         validationSchema={leagueSchema}
       >
         {({
@@ -97,6 +115,7 @@ const LeagueForm = ({ isEdit, handleEdit, league }) => {
               <Grid item xs={6}>
                 <TextField
                   fullWidth
+                  autoFocus
                   type="text"
                   label="League Name"
                   onBlur={handleBlur}
@@ -116,7 +135,7 @@ const LeagueForm = ({ isEdit, handleEdit, league }) => {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  {isEdit ? "Update" : "Create"} League
+                  {id ? "Update" : "Create"} League
                 </Button>
               </Grid>
             </Grid>

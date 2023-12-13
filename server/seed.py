@@ -41,16 +41,6 @@ if __name__ == "__main__":
 
         print("Seeding leagues...")
         fake_league_names = [
-            "Thunderous Beard Ballers",
-            "Macho Mavericks Showdown",
-            "Savage Mustache Masters",
-            "Brutal Bulldozer Brawlers",
-            "Viking Victorious Invitational",
-            "Galactic Gladiator Goal-getters",
-            "Warrior Whiskey Wizards",
-            "Titanium Tornado Tacklers",
-            "Ferocious Fireball Fighters",
-            "Mighty Moose Maulers Cup",
             "Pirate Punch Premier",
             "Rambunctious Rhino Rovers",
             "Snarling Sasquatch Strikers",
@@ -73,9 +63,9 @@ if __name__ == "__main__":
             "West Ham Hammerhead Heroes",
         ]
         leagues = []
-        for _ in range(20):
+        for str in fake_league_names:
             league = League(
-                name=rc(fake_league_names),
+                name=str,
                 manager_id=rc(users).id,
             )
             db.session.add(league)

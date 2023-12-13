@@ -5,6 +5,9 @@ import Authentication from "./features/user/auth";
 import PremierLeague from "./pages/premierLeague";
 import Fantasy from "./pages/fantasy";
 import Dashboard from "./pages/dashboard";
+import LeagueForm from "./components/leagueForm";
+import TeamForm from "./components/teamForm";
+import TeamCard from "./components/teamCard";
 
 const routes = [
   {
@@ -32,6 +35,22 @@ const routes = [
       {
         path: "/users/:id/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/leagues/new",
+        element: <LeagueForm />,
+      },
+      {
+        path: "/leagues/:id/edit",
+        element: <LeagueForm />,
+      },
+      {
+        path: "/leagues/:id/teams/new",
+        element: <TeamForm />,
+      },
+      {
+        path: "/teams/:id/edit",
+        element: <TeamCard />,
       },
     ],
   },

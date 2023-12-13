@@ -1,85 +1,149 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import LeagueForm from "../components/leagueForm";
 import toast from "react-hot-toast";
+import LeagueCard from "../components/leagueCard";
 import { getCookie } from "../utils/main";
+// import TeamCard from "../components/teamCard";
+
+//! ----------- Material UI Table -----------------------------------------------------------------
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import TeamRow from "../components/teamRow";
+
+const StyledTableCell = styled(TableCell)(() => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "black",
+    color: "white",
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+//! -----------------------------------------------------------------------------------------------
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user.data);
-  const [league, setLeague] = useState({});
-  const [allLeagues, setAllLeagues] = useState([]);
-  const [isEdit, setIsEdit] = useState(false);
+  const [leagues, setLeagues] = useState([]);
+  const [teams, setTeams] = useState([]);
 
   useEffect(() => {
     const getLeagues = async () => {
       try {
         const res = await axios.get("/leagues");
-        res.data.forEach((league) => {
-          if (league.manager_id === user?.id) {
-            setAllLeagues((prev) => [...prev, league]);
-          }
-        });
+        setLeagues(res.data);
       } catch (error) {
-        console.log(error);
-      }
-    };
-    getLeagues();
-  }, [user?.id]);
-
-  const handleEdit = (bool, league) => {
-    setIsEdit(bool);
-    setLeague(league);
-    if (!bool) {
-      setAllLeagues((prev) => [...prev, league]);
-      setLeague({});
-    }
-  };
-
-  const handleDelete = (id) => {
-    const deleteLeague = async () => {
-      try {
-        const res = await axios({
-          method: "DELETE",
-          url: `/leagues/${id}`,
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
-          },
-        });
-        console.log(res);
-        setAllLeagues((prev) => prev.filter((league) => league.id !== id));
-        toast.success("League deleted");
-      } catch (error) {
-        console.log(error);
         toast.error(error.message);
       }
     };
-    deleteLeague();
+    getLeagues();
+    const getTeams = async () => {
+      try {
+        const res = await axios.get("/teams");
+        setTeams(res.data);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+    getTeams();
+  }, []);
+
+  const handleFormToggle = () => navigate("/leagues/new");
+
+  const handleLeagueEdit = (id) => navigate(`/leagues/${id}/edit`);
+
+  const handleTeamAdd = (id) => navigate(`/leagues/${id}/teams/new`);
+
+  const handleTeamDisplay = (id) => {
+    console.log("edit team", id);
+    navigate(`/teams/${id}/edit`);
+  };
+  const handleTeamDelete = (id) => {
+    console.log("del team", id);
   };
 
+  const handleLeagueDelete = async (id) => {
+    try {
+      const res = await axios({
+        method: "DELETE",
+        url: `/leagues/${id}`,
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+        },
+      });
+      if (res.status === 200) {
+        try {
+          const res = await axios.get("/leagues");
+          setLeagues(res.data);
+        } catch (error) {
+          toast.error(error.message);
+        }
+      }
+      toast.success("League deleted");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const allLeagues = leagues.map(
+    (league) =>
+      league.manager_id === user?.id && (
+        <LeagueCard
+          key={league.id}
+          isOwn={true}
+          league={league}
+          handleAdd={handleTeamAdd}
+          handleEdit={handleLeagueEdit}
+          handleDelete={handleLeagueDelete}
+        />
+      )
+  );
+
+  const allTeams = teams.map(
+    (team) =>
+      team.owner_id === user?.id && (
+        <TeamRow
+          key={team.id}
+          team={team}
+          handleTeamDisplay={handleTeamDisplay}
+          // handleDelete={handleTeamDelete}
+        />
+      )
+  );
+
   return (
-    <div>
+    <div id="dashboard">
       <h1>Dashboard</h1>
-      <h2>Shows user's leagues, teams, and players</h2>
-      {allLeagues.map((league) => (
-        <div key={league.id}>
-          <h2>{league.name}</h2>
-          <button onClick={() => handleEdit(true, league)}>Edit</button>
-          <button onClick={() => handleDelete(league.id)}>Delete</button>
-        </div>
-      ))}
-      {!isEdit ? (
-        <>
-          <h2>Create a league</h2>
-          <LeagueForm handleEdit={handleEdit} />
-        </>
-      ) : (
-        <>
-          <h2>Edit a league</h2>
-          <LeagueForm isEdit={true} handleEdit={handleEdit} league={league} />
-        </>
-      )}
+      <button onClick={handleFormToggle}>Create New League</button>
+      <h2>Leagues as Owner</h2>
+      {allLeagues}
+      <h2>Teams</h2>
+      <TableContainer component={Paper}>
+        <Table
+          sx={{ maxWidth: "80vw", margin: "auto" }}
+          aria-label="customized table"
+        >
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center">Team Name</StyledTableCell>
+              <StyledTableCell align="center">Owner Name</StyledTableCell>
+              <StyledTableCell align="center">League Name</StyledTableCell>
+              <StyledTableCell align="center">Edit</StyledTableCell>
+              {/* <StyledTableCell align="center">Delete</StyledTableCell> */}
+            </TableRow>
+          </TableHead>
+          <TableBody>{allTeams}</TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };
