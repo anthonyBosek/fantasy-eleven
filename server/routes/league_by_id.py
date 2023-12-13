@@ -1,5 +1,6 @@
 from flask import request
 from flask_restful import Resource
+from flask_jwt_extended import jwt_required
 from config import db
 from models.league import League
 from schemas.league_schema import LeagueSchema
@@ -17,6 +18,7 @@ class LeagueById(Resource):
         except Exception as e:
             return {"message": str(e)}, 500
 
+    @jwt_required()
     def patch(self, id):
         if league := db.session.get(League, id):
             try:
@@ -30,6 +32,7 @@ class LeagueById(Resource):
                 return {"message": str(e)}, 400
         return {"message": "League not found"}, 404
 
+    @jwt_required()
     def delete(self, id):
         if league := db.session.get(League, id):
             try:
