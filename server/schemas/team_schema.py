@@ -30,7 +30,7 @@ class TeamSchema(ma.SQLAlchemySchema):
         fields.Nested(
             "PlayerSchema",
             exclude=("owner",),
-            only=("id", "name", "position"),
+            only=("id", "name", "position", "data_num"),
             dump_only=True,
         )
     )

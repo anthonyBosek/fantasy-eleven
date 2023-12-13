@@ -26,18 +26,14 @@ class UserSchema(ma.SQLAlchemySchema):
     email = fields.String(required=True, validate=validate.Length(min=2, max=256))
     teams = fields.List(fields.Nested("TeamSchema", exclude=("owner",), dump_only=True))
     players = fields.List(
-        fields.Nested("PlayerSchema", exclude=("owner",), many=True, dump_only=True)
+        fields.Nested("PlayerSchema", exclude=("owner",), dump_only=True)
     )
     leagues = fields.List(
-        fields.Nested("LeagueSchema", exclude=("manager",), many=True, dump_only=True)
+        fields.Nested("LeagueSchema", exclude=("manager",), dump_only=True)
     )
-    # home_matchups = fields.List(
-    #     fields.Nested(
-    #         "MatchupSchema", exclude=("home_team",), many=True, dump_only=True
-    #     )
-    # )
-    # away_matchups = fields.List(
-    #     fields.Nested(
-    #         "MatchupSchema", exclude=("away_team",), many=True, dump_only=True
-    #     )
-    # )
+    home_matchups = fields.List(
+        fields.Nested("MatchupSchema", exclude=("home_team",), dump_only=True)
+    )
+    away_matchups = fields.List(
+        fields.Nested("MatchupSchema", exclude=("away_team",), dump_only=True)
+    )

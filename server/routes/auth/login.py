@@ -29,7 +29,7 @@ class Login(Resource):
                 set_refresh_cookies(response, refresh_token)
                 return response
 
-            return {"message": "Invalidd User Credentials"}, 403
+            return {"message": "Invalid User Credentials"}, 403
 
         except Exception as e:
             return {"message": str(e)}, 403
