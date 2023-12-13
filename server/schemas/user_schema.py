@@ -31,13 +31,13 @@ class UserSchema(ma.SQLAlchemySchema):
     leagues = fields.List(
         fields.Nested("LeagueSchema", exclude=("manager",), many=True, dump_only=True)
     )
-    home_matchups = fields.List(
-        fields.Nested(
-            "MatchupSchema", exclude=("home_team",), many=True, dump_only=True
-        )
-    )
-    away_matchups = fields.List(
-        fields.Nested(
-            "MatchupSchema", exclude=("away_team",), many=True, dump_only=True
-        )
-    )
+    # home_matchups = fields.List(
+    #     fields.Nested(
+    #         "MatchupSchema", exclude=("home_team",), many=True, dump_only=True
+    #     )
+    # )
+    # away_matchups = fields.List(
+    #     fields.Nested(
+    #         "MatchupSchema", exclude=("away_team",), many=True, dump_only=True
+    #     )
+    # )
