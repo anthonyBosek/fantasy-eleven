@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -17,35 +18,64 @@ const initialValues = {
   name: "",
 };
 
-const LeagueForm = () => {
+const LeagueForm = ({ isEdit, handleEdit, league }) => {
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user.data);
 
   const handleFormSubmit = async (values) => {
-    values.manager_id = user.id;
-    try {
-      const res = await axios({
-        method: "POST",
-        url: "/leagues",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-TOKEN": getCookie("csrf_access_token"),
-        },
-        data: JSON.stringify(values),
-      });
-      console.log(res);
-      toast.success("League created");
-    } catch (err) {
-      console.log(err);
-      toast.error(err.message);
+    if (!isEdit) {
+      values.manager_id = user.id;
+      try {
+        const res = await axios({
+          method: "POST",
+          url: "/leagues",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+          },
+          data: JSON.stringify(values),
+        });
+        console.log(res);
+        handleEdit(false, res.data);
+        toast.success("League created");
+      } catch (err) {
+        console.log(err);
+        toast.error(err.message);
+      }
+    } else {
+      delete values.manager_name;
+      delete values.manager;
+      try {
+        const res = await axios({
+          method: "PATCH",
+          url: `/leagues/${league.id}`,
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+          },
+          data: JSON.stringify(values),
+        });
+        console.log(res);
+        handleEdit(false, res.data);
+        // navigate("/fantasy");
+        toast.success("League updated", {
+          duration: 3000,
+          position: "top-right",
+        });
+      } catch (err) {
+        console.log(err);
+        toast.error(err.message);
+      }
     }
   };
 
   return (
     <div>
-      <h1>LeagueForm</h1>
+      <h1>{isEdit ? "Edit" : "New"} League Form</h1>
       <Formik
         onSubmit={handleFormSubmit}
-        initialValues={initialValues}
+        enableReinitialize={true}
+        initialValues={isEdit ? league : initialValues}
         validationSchema={leagueSchema}
       >
         {({
@@ -86,7 +116,7 @@ const LeagueForm = () => {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Create League
+                  {isEdit ? "Update" : "Create"} League
                 </Button>
               </Grid>
             </Grid>

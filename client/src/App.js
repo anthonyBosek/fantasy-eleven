@@ -26,9 +26,13 @@ const App = () => {
           if (action.payload.flag === "refresh") {
             console.log("refresh token", action.payload);
           }
+        } else {
+          console.log("error", action.payload);
+          navigate("/");
         }
       } else {
-        navigate("/");
+        console.log("user", user);
+        navigate(`/users/${user.id}/dashboard/`);
       }
     })();
   }, [user, dispatch, navigate]);
