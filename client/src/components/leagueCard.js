@@ -40,13 +40,6 @@ const LeagueCard = ({ isOwn, league, handleAdd, handleEdit, handleDelete }) => {
           </CardContent>
           {user && (
             <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-              <Button
-                size="small"
-                variant="contained"
-                onClick={() => handleAdd(league.id)}
-              >
-                {isOwn ? "Add Team" : "Join League"}
-              </Button>
               {isOwn && (
                 <>
                   <Button
@@ -54,17 +47,25 @@ const LeagueCard = ({ isOwn, league, handleAdd, handleEdit, handleDelete }) => {
                     variant="contained"
                     onClick={() => handleEdit(league.id)}
                   >
-                    Edit
+                    Edit League
                   </Button>
                   <Button
                     size="small"
                     variant="contained"
                     onClick={() => handleDelete(league.id)}
                   >
-                    Delete
+                    Delete lEague
                   </Button>
                 </>
               )}
+              <Button
+                size="small"
+                variant="contained"
+                sx={{ ml: 16 }}
+                onClick={() => handleAdd(league.id)}
+              >
+                {isOwn ? "Add Team" : "Join League"}
+              </Button>
             </Box>
           )}
         </Box>

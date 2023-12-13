@@ -40,7 +40,7 @@ const TeamForm = () => {
   }, [team_id]);
 
   const handleFormSubmit = async (values) => {
-    if (!id) {
+    if (!team_id) {
       values.owner_id = user.id;
       values.league_id = id;
       try {
@@ -85,7 +85,7 @@ const TeamForm = () => {
       <Formik
         onSubmit={handleFormSubmit}
         enableReinitialize={true}
-        initialValues={id ? team : initialValues}
+        initialValues={team_id ? team : initialValues}
         validationSchema={teamSchema}
       >
         {({
@@ -127,7 +127,7 @@ const TeamForm = () => {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  {id ? "Update" : "Create"} Team
+                  {team_id ? "Update" : "Create"} Team
                 </Button>
               </Grid>
             </Grid>

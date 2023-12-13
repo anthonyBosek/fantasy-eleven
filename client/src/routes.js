@@ -7,6 +7,7 @@ import Fantasy from "./pages/fantasy";
 import Dashboard from "./pages/dashboard";
 import LeagueForm from "./components/leagueForm";
 import TeamForm from "./components/teamForm";
+import TeamCard from "./components/teamCard";
 
 const routes = [
   {
@@ -48,8 +49,8 @@ const routes = [
         element: <TeamForm />,
       },
       {
-        path: "/leagues/:id/teams/:team_id/edit",
-        element: <TeamForm />,
+        path: "/teams/:id/edit",
+        element: <TeamCard />,
       },
     ],
   },

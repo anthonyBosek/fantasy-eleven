@@ -5,6 +5,29 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import LeagueCard from "../components/leagueCard";
 import { getCookie } from "../utils/main";
+// import TeamCard from "../components/teamCard";
+
+//! ----------- Material UI Table -----------------------------------------------------------------
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import TeamRow from "../components/teamRow";
+
+const StyledTableCell = styled(TableCell)(() => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "black",
+    color: "white",
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+//! -----------------------------------------------------------------------------------------------
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -37,12 +60,15 @@ const Dashboard = () => {
 
   const handleLeagueEdit = (id) => navigate(`/leagues/${id}/edit`);
 
-  const handleTeamAdd = (id) => {
-    console.log("add");
-    navigate(`/leagues/${id}/teams/new`);
+  const handleTeamAdd = (id) => navigate(`/leagues/${id}/teams/new`);
+
+  const handleTeamDisplay = (id) => {
+    console.log("edit team", id);
+    navigate(`/teams/${id}/edit`);
   };
-  const handleTeamEdit = () => {};
-  const handleTeamDelete = () => {};
+  const handleTeamDelete = (id) => {
+    console.log("del team", id);
+  };
 
   const handleLeagueDelete = async (id) => {
     try {
@@ -82,12 +108,42 @@ const Dashboard = () => {
       )
   );
 
+  const allTeams = teams.map(
+    (team) =>
+      team.owner_id === user?.id && (
+        <TeamRow
+          key={team.id}
+          team={team}
+          handleTeamDisplay={handleTeamDisplay}
+          // handleDelete={handleTeamDelete}
+        />
+      )
+  );
+
   return (
-    <div>
+    <div id="dashboard">
       <h1>Dashboard</h1>
       <button onClick={handleFormToggle}>Create New League</button>
       <h2>Leagues as Owner</h2>
       {allLeagues}
+      <h2>Teams</h2>
+      <TableContainer component={Paper}>
+        <Table
+          sx={{ maxWidth: "80vw", margin: "auto" }}
+          aria-label="customized table"
+        >
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center">Team Name</StyledTableCell>
+              <StyledTableCell align="center">Owner Name</StyledTableCell>
+              <StyledTableCell align="center">League Name</StyledTableCell>
+              <StyledTableCell align="center">Edit</StyledTableCell>
+              {/* <StyledTableCell align="center">Delete</StyledTableCell> */}
+            </TableRow>
+          </TableHead>
+          <TableBody>{allTeams}</TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };
