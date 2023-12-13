@@ -11,6 +11,7 @@ class Player(db.Model, TimestampMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     position = db.Column(db.String, nullable=False)
+    data_num = db.Column(db.Integer, nullable=False)
     team_id = db.Column(
         db.Integer, db.ForeignKey("teams.id", ondelete="CASCADE"), nullable=False
     )

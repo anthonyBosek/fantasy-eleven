@@ -31,8 +31,8 @@ class User(db.Model, TimestampMixin):
     team_names = association_proxy("teams", "name")
     player_names = association_proxy("players", "name")
     league_names = association_proxy("leagues", "name")
-    home_matchups = association_proxy("teams", "home_matchups")
-    away_matchups = association_proxy("teams", "away_matchups")
+    # home_matchups = association_proxy("teams", "home_matchups")
+    # away_matchups = association_proxy("teams", "away_matchups")
 
     # validations
     @validates("first_name")

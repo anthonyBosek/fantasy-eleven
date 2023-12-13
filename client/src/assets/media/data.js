@@ -400,7 +400,7 @@ export const TEAMS = [
     },
   },
 ];
-export const rosters = [
+export const ROSTERS = [
   {
     team: {
       id: 33,
@@ -5674,6 +5674,578 @@ export const rosters = [
         number: 19,
         position: "Attacker",
         photo: "https://media-4.api-sports.io/football/players/19802.png",
+      },
+    ],
+  },
+];
+export const STATS = [
+  {
+    player: {
+      id: 280,
+      name: "Alisson Becker",
+      firstname: "Alisson Ramsés",
+      lastname: "Becker",
+      age: 31,
+      birth: {
+        date: "1992-10-02",
+        place: "Novo Hamburgo",
+        country: "Brazil",
+      },
+      nationality: "Brazil",
+      height: "193 cm",
+      weight: "91 kg",
+      injured: false,
+      photo: "https://media-4.api-sports.io/football/players/280.png",
+    },
+    statistics: [
+      {
+        team: {
+          id: 40,
+          name: "Liverpool",
+          logo: "https://media-4.api-sports.io/football/teams/40.png",
+        },
+        league: {
+          id: 39,
+          name: "Premier League",
+          country: "England",
+          logo: "https://media-4.api-sports.io/football/leagues/39.png",
+          flag: "https://media-4.api-sports.io/flags/gb.svg",
+          season: 2023,
+        },
+        games: {
+          appearences: 14,
+          lineups: 14,
+          minutes: 1260,
+          number: null,
+          position: "Goalkeeper",
+          rating: "7.221428",
+          captain: false,
+        },
+        substitutes: {
+          in: 0,
+          out: 0,
+          bench: 0,
+        },
+        shots: {
+          total: null,
+          on: null,
+        },
+        goals: {
+          total: 0,
+          conceded: 12,
+          assists: null,
+          saves: 47,
+        },
+        passes: {
+          total: 513,
+          key: 1,
+          accuracy: 30,
+        },
+        tackles: {
+          total: null,
+          blocks: null,
+          interceptions: null,
+        },
+        duels: {
+          total: 10,
+          won: 7,
+        },
+        dribbles: {
+          attempts: null,
+          success: null,
+          past: null,
+        },
+        fouls: {
+          drawn: 3,
+          committed: 1,
+        },
+        cards: {
+          yellow: 1,
+          yellowred: 0,
+          red: 0,
+        },
+        penalty: {
+          won: null,
+          commited: null,
+          scored: 0,
+          missed: 0,
+          saved: 0,
+        },
+      },
+    ],
+  },
+  {
+    player: {
+      id: 19465,
+      name: "David Raya",
+      firstname: "David",
+      lastname: "Raya Martin",
+      age: 28,
+      birth: {
+        date: "1995-09-15",
+        place: "Barcelona",
+        country: "Spain",
+      },
+      nationality: "Spain",
+      height: "183 cm",
+      weight: "80 kg",
+      injured: false,
+      photo: "https://media-4.api-sports.io/football/players/19465.png",
+    },
+    statistics: [
+      {
+        team: {
+          id: 42,
+          name: "Arsenal",
+          logo: "https://media-4.api-sports.io/football/teams/42.png",
+        },
+        league: {
+          id: 39,
+          name: "Premier League",
+          country: "England",
+          logo: "https://media-4.api-sports.io/football/leagues/39.png",
+          flag: "https://media-4.api-sports.io/flags/gb.svg",
+          season: 2023,
+        },
+        games: {
+          appearences: 11,
+          lineups: 11,
+          minutes: 990,
+          number: null,
+          position: "Goalkeeper",
+          rating: "6.754545",
+          captain: false,
+        },
+        substitutes: {
+          in: 0,
+          out: 0,
+          bench: 3,
+        },
+        shots: {
+          total: null,
+          on: null,
+        },
+        goals: {
+          total: 0,
+          conceded: 11,
+          assists: null,
+          saves: 17,
+        },
+        passes: {
+          total: 335,
+          key: null,
+          accuracy: 22,
+        },
+        tackles: {
+          total: null,
+          blocks: null,
+          interceptions: null,
+        },
+        duels: {
+          total: 5,
+          won: 4,
+        },
+        dribbles: {
+          attempts: null,
+          success: null,
+          past: null,
+        },
+        fouls: {
+          drawn: 2,
+          committed: null,
+        },
+        cards: {
+          yellow: 0,
+          yellowred: 0,
+          red: 0,
+        },
+        penalty: {
+          won: null,
+          commited: null,
+          scored: 0,
+          missed: 0,
+          saved: 0,
+        },
+      },
+    ],
+  },
+  {
+    player: {
+      id: 290,
+      name: "V. van Dijk",
+      firstname: "Virgil",
+      lastname: "van Dijk",
+      age: 32,
+      birth: {
+        date: "1991-07-08",
+        place: "Breda",
+        country: "Netherlands",
+      },
+      nationality: "Netherlands",
+      height: "195 cm",
+      weight: "92 kg",
+      injured: false,
+      photo: "https://media-4.api-sports.io/football/players/290.png",
+    },
+    statistics: [
+      {
+        team: {
+          id: 40,
+          name: "Liverpool",
+          logo: "https://media-4.api-sports.io/football/teams/40.png",
+        },
+        league: {
+          id: 39,
+          name: "Premier League",
+          country: "England",
+          logo: "https://media-4.api-sports.io/football/leagues/39.png",
+          flag: "https://media-4.api-sports.io/flags/gb.svg",
+          season: 2023,
+        },
+        games: {
+          appearences: 14,
+          lineups: 14,
+          minutes: 1198,
+          number: null,
+          position: "Defender",
+          rating: "7.478571",
+          captain: false,
+        },
+        substitutes: {
+          in: 0,
+          out: 0,
+          bench: 0,
+        },
+        shots: {
+          total: 14,
+          on: 5,
+        },
+        goals: {
+          total: 1,
+          conceded: 0,
+          assists: 2,
+          saves: null,
+        },
+        passes: {
+          total: 1073,
+          key: 6,
+          accuracy: 69,
+        },
+        tackles: {
+          total: 19,
+          blocks: 15,
+          interceptions: 21,
+        },
+        duels: {
+          total: 118,
+          won: 91,
+        },
+        dribbles: {
+          attempts: null,
+          success: null,
+          past: null,
+        },
+        fouls: {
+          drawn: 4,
+          committed: 7,
+        },
+        cards: {
+          yellow: 1,
+          yellowred: 0,
+          red: 1,
+        },
+        penalty: {
+          won: null,
+          commited: null,
+          scored: 0,
+          missed: 0,
+          saved: null,
+        },
+      },
+    ],
+  },
+  {
+    player: {
+      id: 306,
+      name: "Mohamed Salah",
+      firstname: "Mohamed",
+      lastname: "Salah Hamed Mahrous Ghaly",
+      age: 31,
+      birth: {
+        date: "1992-06-15",
+        place: "Muḥāfaẓat al Gharbiyya",
+        country: "Egypt",
+      },
+      nationality: "Egypt",
+      height: "175 cm",
+      weight: "71 kg",
+      injured: false,
+      photo: "https://media-4.api-sports.io/football/players/306.png",
+    },
+    statistics: [
+      {
+        team: {
+          id: 40,
+          name: "Liverpool",
+          logo: "https://media-4.api-sports.io/football/teams/40.png",
+        },
+        league: {
+          id: 39,
+          name: "Premier League",
+          country: "England",
+          logo: "https://media-4.api-sports.io/football/leagues/39.png",
+          flag: "https://media-4.api-sports.io/flags/gb.svg",
+          season: 2023,
+        },
+        games: {
+          appearences: 16,
+          lineups: 16,
+          minutes: 1384,
+          number: null,
+          position: "Attacker",
+          rating: "7.675000",
+          captain: false,
+        },
+        substitutes: {
+          in: 0,
+          out: 5,
+          bench: 0,
+        },
+        shots: {
+          total: 38,
+          on: 21,
+        },
+        goals: {
+          total: 11,
+          conceded: 0,
+          assists: 7,
+          saves: null,
+        },
+        passes: {
+          total: 501,
+          key: 37,
+          accuracy: 24,
+        },
+        tackles: {
+          total: 11,
+          blocks: 1,
+          interceptions: 2,
+        },
+        duels: {
+          total: 125,
+          won: 45,
+        },
+        dribbles: {
+          attempts: 43,
+          success: 14,
+          past: null,
+        },
+        fouls: {
+          drawn: 16,
+          committed: 4,
+        },
+        cards: {
+          yellow: 1,
+          yellowred: 0,
+          red: 0,
+        },
+        penalty: {
+          won: null,
+          commited: null,
+          scored: 3,
+          missed: 1,
+          saved: null,
+        },
+      },
+    ],
+  },
+  {
+    player: {
+      id: 37127,
+      name: "M. Ødegaard",
+      firstname: "Martin",
+      lastname: "Ødegaard",
+      age: 25,
+      birth: {
+        date: "1998-12-17",
+        place: "Drammen",
+        country: "Norway",
+      },
+      nationality: "Norway",
+      height: "178 cm",
+      weight: "68 kg",
+      injured: false,
+      photo: "https://media-4.api-sports.io/football/players/37127.png",
+    },
+    statistics: [
+      {
+        team: {
+          id: 42,
+          name: "Arsenal",
+          logo: "https://media-4.api-sports.io/football/teams/42.png",
+        },
+        league: {
+          id: 39,
+          name: "Premier League",
+          country: "England",
+          logo: "https://media-4.api-sports.io/football/leagues/39.png",
+          flag: "https://media-4.api-sports.io/flags/gb.svg",
+          season: 2023,
+        },
+        games: {
+          appearences: 13,
+          lineups: 13,
+          minutes: 1151,
+          number: null,
+          position: "Midfielder",
+          rating: "7.476923",
+          captain: false,
+        },
+        substitutes: {
+          in: 0,
+          out: 6,
+          bench: 1,
+        },
+        shots: {
+          total: 21,
+          on: 13,
+        },
+        goals: {
+          total: 4,
+          conceded: 0,
+          assists: 2,
+          saves: null,
+        },
+        passes: {
+          total: 623,
+          key: 28,
+          accuracy: 41,
+        },
+        tackles: {
+          total: 20,
+          blocks: null,
+          interceptions: 4,
+        },
+        duels: {
+          total: 101,
+          won: 39,
+        },
+        dribbles: {
+          attempts: 21,
+          success: 9,
+          past: null,
+        },
+        fouls: {
+          drawn: 10,
+          committed: 11,
+        },
+        cards: {
+          yellow: 1,
+          yellowred: 0,
+          red: 0,
+        },
+        penalty: {
+          won: null,
+          commited: null,
+          scored: 2,
+          missed: 0,
+          saved: null,
+        },
+      },
+    ],
+  },
+  {
+    player: {
+      id: 2937,
+      name: "D. Rice",
+      firstname: "Declan",
+      lastname: "Rice",
+      age: 24,
+      birth: {
+        date: "1999-01-14",
+        place: "London",
+        country: "England",
+      },
+      nationality: "England",
+      height: "185 cm",
+      weight: "84 kg",
+      injured: false,
+      photo: "https://media-4.api-sports.io/football/players/2937.png",
+    },
+    statistics: [
+      {
+        team: {
+          id: 42,
+          name: "Arsenal",
+          logo: "https://media-4.api-sports.io/football/teams/42.png",
+        },
+        league: {
+          id: 39,
+          name: "Premier League",
+          country: "England",
+          logo: "https://media-4.api-sports.io/football/leagues/39.png",
+          flag: "https://media-4.api-sports.io/flags/gb.svg",
+          season: 2023,
+        },
+        games: {
+          appearences: 16,
+          lineups: 16,
+          minutes: 1386,
+          number: null,
+          position: "Midfielder",
+          rating: "7.343750",
+          captain: false,
+        },
+        substitutes: {
+          in: 0,
+          out: 4,
+          bench: 0,
+        },
+        shots: {
+          total: 11,
+          on: 6,
+        },
+        goals: {
+          total: 3,
+          conceded: 0,
+          assists: 1,
+          saves: null,
+        },
+        passes: {
+          total: 1030,
+          key: 12,
+          accuracy: 58,
+        },
+        tackles: {
+          total: 33,
+          blocks: 5,
+          interceptions: 24,
+        },
+        duels: {
+          total: 126,
+          won: 63,
+        },
+        dribbles: {
+          attempts: 14,
+          success: 7,
+          past: null,
+        },
+        fouls: {
+          drawn: 9,
+          committed: 11,
+        },
+        cards: {
+          yellow: 1,
+          yellowred: 0,
+          red: 0,
+        },
+        penalty: {
+          won: null,
+          commited: null,
+          scored: 0,
+          missed: 0,
+          saved: null,
+        },
       },
     ],
   },

@@ -17,6 +17,7 @@ class Login(Resource):
     def post(self):
         try:
             data = request.get_json()
+            print(data)
             user = User.query.filter_by(email=data.get("email")).first()
 
             if user and user.authenticate(data.get("password")):
@@ -31,4 +32,4 @@ class Login(Resource):
             return {"message": "Invalid User Credentials"}, 403
 
         except Exception as e:
-            return {"message": "Invalid User Credentials"}, 403
+            return {"message": str(e)}, 403

@@ -12,7 +12,7 @@ class LeagueSchema(ma.SQLAlchemySchema):
             "name",
             "manager_id",
             "manager",
-            "matchups",
+            # "matchups",
             "teams",
             "manager_name",
         ]
@@ -24,19 +24,19 @@ class LeagueSchema(ma.SQLAlchemySchema):
         exclude=("leagues", "teams", "home_matchups", "away_matchups"),
         dump_only=True,
     )
-    matchups = fields.List(
-        fields.Nested(
-            "MatchupSchema",
-            exclude=("league",),
-            # only=("week_number", "home_team_id", "away_team_id"),
-            dump_only=True,
-        )
-    )
+    # matchups = fields.List(
+    #     fields.Nested(
+    #         "MatchupSchema",
+    #         exclude=("league",),
+    #         # only=("week_number", "home_team_id", "away_team_id"),
+    #         dump_only=True,
+    #     )
+    # )
     teams = fields.List(
         fields.Nested(
             "TeamSchema",
             # exclude=("league", "players", "home_matchups", "away_matchups"),
-            only=("id", "name", "owner_id"),
+            only=("id", "name", "owner_id", "players"),
             dump_only=True,
         )
     )
