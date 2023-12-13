@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { clearErrors as clearUserErrors } from "./features/user/userSlice";
 import { fetchCurrentUser } from "./features/user/userSlice";
 import Header from "./components/header";
@@ -28,7 +28,8 @@ const App = () => {
           }
         } else {
           console.log("error", action.payload);
-          navigate("/");
+          toast.error("Token expired. Please log in again.");
+          // navigate("/");
         }
       } else {
         console.log("user", user);

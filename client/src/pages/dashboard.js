@@ -1,85 +1,49 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import axios, { all } from "axios";
 import LeagueForm from "../components/leagueForm";
 import toast from "react-hot-toast";
 import { getCookie } from "../utils/main";
+import LeagueCard from "../components/leagueCard";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.data);
-  const [league, setLeague] = useState({});
-  const [allLeagues, setAllLeagues] = useState([]);
-  const [isEdit, setIsEdit] = useState(false);
+  const [leagues, setLeagues] = useState([]);
 
   useEffect(() => {
     const getLeagues = async () => {
       try {
         const res = await axios.get("/leagues");
-        res.data.forEach((league) => {
-          if (league.manager_id === user?.id) {
-            setAllLeagues((prev) => [...prev, league]);
-          }
-        });
+        setLeagues(res.data);
       } catch (error) {
         console.log(error);
       }
     };
     getLeagues();
-  }, [user?.id]);
+  }, []);
 
-  const handleEdit = (bool, league) => {
-    setIsEdit(bool);
-    setLeague(league);
-    if (!bool) {
-      setAllLeagues((prev) => [...prev, league]);
-      setLeague({});
-    }
+  const handleLeagueEdit = () => {
+    //! Patch axios request
+    console.log("edit");
   };
 
-  const handleDelete = (id) => {
-    const deleteLeague = async () => {
-      try {
-        const res = await axios({
-          method: "DELETE",
-          url: `/leagues/${id}`,
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": getCookie("csrf_access_token"),
-          },
-        });
-        console.log(res);
-        setAllLeagues((prev) => prev.filter((league) => league.id !== id));
-        toast.success("League deleted");
-      } catch (error) {
-        console.log(error);
-        toast.error(error.message);
-      }
-    };
-    deleteLeague();
-  };
+  const allLeagues = leagues.map(
+    (league) =>
+      league.manager_id === user.id && (
+        <LeagueCard
+          key={league.id}
+          isOwn={true}
+          league={league}
+          handleClick={handleLeagueEdit}
+        />
+      )
+  );
 
   return (
     <div>
       <h1>Dashboard</h1>
-      <h2>Shows user's leagues, teams, and players</h2>
-      {allLeagues.map((league) => (
-        <div key={league.id}>
-          <h2>{league.name}</h2>
-          <button onClick={() => handleEdit(true, league)}>Edit</button>
-          <button onClick={() => handleDelete(league.id)}>Delete</button>
-        </div>
-      ))}
-      {!isEdit ? (
-        <>
-          <h2>Create a league</h2>
-          <LeagueForm handleEdit={handleEdit} />
-        </>
-      ) : (
-        <>
-          <h2>Edit a league</h2>
-          <LeagueForm isEdit={true} handleEdit={handleEdit} league={league} />
-        </>
-      )}
+      <h2>Leagues as Owner</h2>
+      {allLeagues}
     </div>
   );
 };
