@@ -154,6 +154,7 @@ if __name__ == "__main__":
                 player = Player(
                     name=gk["name"],
                     position="Goalkeeper",
+                    data_num=gk["id"],
                     team_id=team.id,
                 )
                 db.session.add(player)
@@ -164,6 +165,7 @@ if __name__ == "__main__":
                     player = Player(
                         name=fb["name"],
                         position="Defender",
+                        data_num=fb["id"],
                         team_id=team.id,
                     )
                     db.session.add(player)
@@ -174,6 +176,7 @@ if __name__ == "__main__":
                     player = Player(
                         name=mf["name"],
                         position="Midfielder",
+                        data_num=mf["id"],
                         team_id=team.id,
                     )
                     db.session.add(player)
@@ -184,6 +187,7 @@ if __name__ == "__main__":
                     player = Player(
                         name=at["name"],
                         position="Attacker",
+                        data_num=at["id"],
                         team_id=team.id,
                     )
                     db.session.add(player)
