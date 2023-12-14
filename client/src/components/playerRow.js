@@ -33,7 +33,7 @@ const StyledTableRow = styled(TableRow)(() => ({
   //   },
 }));
 
-const PlayerRow = ({ id, data_num, handleDrop }) => {
+const PlayerRow = ({ isAdd, data_num, handleClick }) => {
   // const user = useSelector((state) => state.user.data);
   const [team, setTeam] = useState({});
   const [player, setPlayer] = useState({});
@@ -54,7 +54,7 @@ const PlayerRow = ({ id, data_num, handleDrop }) => {
     }
   }, [data_num]);
 
-  const handleClick = () => handleDrop(id);
+  //   const handleClick = () => handleDrop(id);
 
   return (
     <StyledTableRow>
@@ -83,8 +83,12 @@ const PlayerRow = ({ id, data_num, handleDrop }) => {
         {team.name}
       </StyledTableCell>
       <StyledTableCell align="center">
-        <Button size="small" variant="contained" onClick={handleClick}>
-          Drop Player
+        <Button
+          size="small"
+          variant="contained"
+          onClick={() => handleClick(player)}
+        >
+          {isAdd ? "Add" : "Drop"} Player
         </Button>
       </StyledTableCell>
       {/* <StyledTableCell align="center">

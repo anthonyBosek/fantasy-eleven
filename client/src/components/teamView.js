@@ -11,8 +11,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { getCookie, SPOTS } from "../utils/main";
+import { getCookie } from "../utils/main";
 import PlayerRow from "./playerRow";
+import AllPlayersTable from "./playerView";
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
@@ -24,7 +25,7 @@ const StyledTableCell = styled(TableCell)(() => ({
   },
 }));
 
-const TeamCard = () => {
+const TeamView = () => {
   const { id } = useParams();
   const [team, setTeam] = useState({});
   const [addToggle, setAddToggle] = useState(false);
@@ -98,7 +99,8 @@ const TeamCard = () => {
     setAddToggle(!addToggle);
   };
 
-  const handleDrop = (_id) => {
+  const handleDrop = (player) => {
+    const _id = team.players.filter((obj) => obj.data_num === player.id)[0].id;
     const dropPlayer = async () => {
       try {
         const res = await axios({
@@ -110,6 +112,7 @@ const TeamCard = () => {
           },
         });
         console.log(res.data);
+        toast.success(`${player.name} dropped from roster`);
         if (res.status === 200) {
           try {
             const res = await axios({
@@ -136,22 +139,22 @@ const TeamCard = () => {
   const allPlayers = team.players?.map(({ id, data_num }) => (
     <PlayerRow
       key={`player-${id}`}
-      id={id}
       data_num={data_num}
-      handleDrop={handleDrop}
+      handleClick={handleDrop}
     />
   ));
 
   return (
     <div>
-      <h1>TeamCard</h1>
+      <h1>TeamView</h1>
       <h2>{team.name}</h2>
       <h2>{team.league?.name}</h2>
       <button onClick={handleAdd}>Add Player</button>
-      {addToggle && <h2>add player form</h2>}
+      {addToggle && <AllPlayersTable rosterCheck={rosterCheck} />}
+      <hr />
       <TableContainer component={Paper}>
         <Table
-          sx={{ maxWidth: "80vw", margin: "auto" }}
+          sx={{ maxWidth: "80vw", margin: "20px auto" }}
           aria-label="customized table"
         >
           <TableHead>
@@ -171,4 +174,4 @@ const TeamCard = () => {
   );
 };
 
-export default TeamCard;
+export default TeamView;
