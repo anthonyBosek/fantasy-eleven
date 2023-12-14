@@ -1,74 +1,18 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "axios";
 import toast from "react-hot-toast";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { getCookie } from "../utils/main";
-import PlayerRow from "./playerRow";
-import AllPlayersTable from "./playerView";
-
-const StyledTableCell = styled(TableCell)(() => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "black",
-    color: "white",
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
+import { LINEUP } from "../utils/main";
+import "../styles/teamView.css";
+import PlayerCardSmall from "./playerCardSmall";
 
 const TeamView = () => {
   const { id } = useParams();
-  const [team, setTeam] = useState({});
-  const [addToggle, setAddToggle] = useState(false);
-  const [roster, setRoster] = useState({});
-
-  const initialRoster = {
-    Goalkeeper: 0,
-    Defender: 0,
-    Midfielder: 0,
-    Attacker: 0,
-  };
-
-  const rosterCheck = (pos) => {
-    if (pos === "Goalkeeper") {
-      if (roster[pos] === 1) {
-        toast.error("You can only have one goalkeeper");
-      } else {
-        initialRoster[pos] += 1;
-        return true;
-      }
-    } else if (pos === "Defender") {
-      if (roster[pos] === 4) {
-        toast.error("You can only have four defenders");
-      } else {
-        initialRoster[pos] += 1;
-        return true;
-      }
-    } else if (pos === "Midfielder") {
-      if (roster[pos] === 3) {
-        toast.error("You can only have three midfielders");
-      } else {
-        initialRoster[pos] += 1;
-        return true;
-      }
-    } else if (pos === "Attacker") {
-      if (roster[pos] === 3) {
-        toast.error("You can only have three attackers");
-      } else {
-        initialRoster[pos] += 1;
-        return true;
-      }
-    }
-  };
+  const user = useSelector((state) => state.user.data);
+  const [team, setTeam] = useState(null); //! entire db data
+  const [lineup, setLineup] = useState(LINEUP); //! local state for display and logic
 
   useEffect(() => {
     const getTeam = async () => {
@@ -81,11 +25,13 @@ const TeamView = () => {
             "X-CSRF-TOKEN": getCookie("csrf_access_token"),
           },
         });
-        res.data.players.map(({ position }) => {
-          rosterCheck(position);
-        });
-        setRoster(initialRoster);
         setTeam(res.data);
+        res.data.players.map((player) => {
+          setLineup((prev) => ({
+            ...prev,
+            [player.position]: [...prev[player.position], player],
+          }));
+        });
       } catch (error) {
         toast.error(error.message);
       }
@@ -95,39 +41,45 @@ const TeamView = () => {
     }
   }, [id]);
 
-  const handleAdd = () => {
-    setAddToggle(!addToggle);
-  };
-
-  const handleDrop = (player) => {
-    const _id = team.players.filter((obj) => obj.data_num === player.id)[0].id;
+  const handleDrop = (id) => {
+    // get player data and index from lineup -> then empty that index in lineup and update state
+    const player = team.players.filter((player) => player.id === id)[0];
+    const index = lineup[player.position].indexOf(player);
     const dropPlayer = async () => {
       try {
         const res = await axios({
           method: "DELETE",
-          url: `/players/${_id}`,
+          url: `/players/${id}`,
           headers: {
             "Content-Type": "application/json",
             "X-CSRF-TOKEN": getCookie("csrf_access_token"),
           },
         });
-        console.log(res.data);
-        toast.success(`${player.name} dropped from roster`);
         if (res.status === 200) {
-          try {
-            const res = await axios({
-              method: "GET",
-              url: `/teams/${id}`,
-              headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": getCookie("csrf_access_token"),
-              },
-            });
-            setRoster(initialRoster);
-            setTeam(res.data);
-          } catch (error) {
-            toast.error(error.message);
-          }
+          toast.success(`${player.name} dropped from roster`);
+          //   const newLineup = lineup;
+          //   newLineup[player.position][index] = undefined;
+          //   setLineup(newLineup);
+          //! this is where I need to some how refresh the page to reflect the change
+          //   try {
+          //     const res = await axios({
+          //       method: "GET",
+          //       url: `/teams/${id}`,
+          //       headers: {
+          //         "Content-Type": "application/json",
+          //         "X-CSRF-TOKEN": getCookie("csrf_access_token"),
+          //       },
+          //     });
+          //     setTeam(res.data);
+          //     res.data.players.map((player) => {
+          //       setLineup((prev) => ({
+          //         ...prev,
+          //         [player.position]: [...prev[player.position], player],
+          //       }));
+          //     });
+          //   } catch (error) {
+          //     toast.error(error.message);
+          //   }
         }
       } catch (error) {
         toast.error(error.message);
@@ -136,40 +88,53 @@ const TeamView = () => {
     dropPlayer();
   };
 
-  const allPlayers = team.players?.map(({ id, data_num }) => (
-    <PlayerRow
-      key={`player-${id}`}
-      data_num={data_num}
-      handleClick={handleDrop}
-    />
-  ));
+  const handleAdd = () => {};
+
+  const currentLineup = () => {
+    const p = { Goalkeeper: 1, Defender: 4, Midfielder: 3, Attacker: 3 };
+    const lineupGrid = [];
+    for (const [position, players] of Object.entries(lineup)) {
+      for (let i = 0; i < p[position]; i++) {
+        if (players[i] === undefined) {
+          lineupGrid.push(<div key={`empty`}> Empty </div>);
+        } else {
+          lineupGrid.push(
+            <PlayerCardSmall
+              key={`lineup-${players[i].name}`}
+              id={players[i].id}
+              data_num={players[i].data_num}
+              handleDrop={handleDrop}
+            />
+          );
+        }
+      }
+    }
+    return lineupGrid;
+  };
 
   return (
     <div>
-      <h1>TeamView</h1>
-      <h2>{team.name}</h2>
-      <h2>{team.league?.name}</h2>
-      <button onClick={handleAdd}>Add Player</button>
-      {addToggle && <AllPlayersTable rosterCheck={rosterCheck} />}
-      <hr />
-      <TableContainer component={Paper}>
-        <Table
-          sx={{ maxWidth: "80vw", margin: "20px auto" }}
-          aria-label="customized table"
-        >
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="center"></StyledTableCell>
-              <StyledTableCell align="center">Jersey #</StyledTableCell>
-              <StyledTableCell align="center">Name</StyledTableCell>
-              <StyledTableCell align="center">Position</StyledTableCell>
-              <StyledTableCell align="center">Team</StyledTableCell>
-              <StyledTableCell align="center">Edit</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{allPlayers}</TableBody>
-        </Table>
-      </TableContainer>
+      {team && (
+        <>
+          {console.log(lineup)}
+          <h1>{team.name}</h1>
+          <h3>Players</h3>
+          <div className="roster-grid">
+            <div className="roster-grid-gk">Goalkeeper</div>
+            <div className="roster-grid-df">Defender</div>
+            <div className="roster-grid-df">Defender</div>
+            <div className="roster-grid-df">Defender</div>
+            <div className="roster-grid-df">Defender</div>
+            <div className="roster-grid-mf">Midfielder</div>
+            <div className="roster-grid-mf">Midfielder</div>
+            <div className="roster-grid-mf">Midfielder</div>
+            <div className="roster-grid-at">Attacker</div>
+            <div className="roster-grid-at">Attacker</div>
+            <div className="roster-grid-at">Attacker</div>
+            {currentLineup()}
+          </div>
+        </>
+      )}
     </div>
   );
 };
