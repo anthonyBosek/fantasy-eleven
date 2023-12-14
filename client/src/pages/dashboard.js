@@ -62,10 +62,8 @@ const Dashboard = () => {
 
   const handleTeamAdd = (id) => navigate(`/leagues/${id}/teams/new`);
 
-  const handleTeamDisplay = (id) => {
-    console.log("edit team", id);
-    navigate(`/teams/${id}/edit`);
-  };
+  const handleTeamDisplay = (id) => navigate(`/teams/${id}/edit`);
+
   const handleTeamDelete = (id) => {
     console.log("del team", id);
   };

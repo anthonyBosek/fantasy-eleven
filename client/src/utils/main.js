@@ -44,3 +44,17 @@ export const randomThumb = () => {
   ];
   return thumbs[Math.floor(Math.random() * thumbs.length)];
 };
+
+export const SPOTS = [
+  "Goalkeeper",
+  "Defender",
+  "Defender",
+  "Defender",
+  "Defender",
+  "Midfielder",
+  "Midfielder",
+  "Midfielder",
+  "Attacker",
+  "Attacker",
+  "Attacker",
+];
