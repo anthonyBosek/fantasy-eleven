@@ -7,7 +7,7 @@ import Fantasy from "./pages/fantasy";
 import Dashboard from "./pages/dashboard";
 import LeagueForm from "./components/leagueForm";
 import TeamForm from "./components/teamForm";
-import TeamCard from "./components/teamCard";
+import TeamView from "./components/teamView";
 
 const routes = [
   {
@@ -50,7 +50,7 @@ const routes = [
       },
       {
         path: "/teams/:id/edit",
-        element: <TeamCard />,
+        element: <TeamView />,
       },
     ],
   },

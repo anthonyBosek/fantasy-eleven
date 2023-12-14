@@ -29,8 +29,6 @@ const StyledTableRow = styled(TableRow)(() => ({
 }));
 
 const TeamRow = ({ team, handleTeamDisplay }) => {
-  // const user = useSelector((state) => state.user.data);
-
   return (
     <StyledTableRow>
       <StyledTableCell
@@ -57,15 +55,6 @@ const TeamRow = ({ team, handleTeamDisplay }) => {
           View Team
         </Button>
       </StyledTableCell>
-      {/* <StyledTableCell align="center">
-        <Button
-          size="small"
-          variant="contained"
-          onClick={() => handleDelete(team.id)}
-        >
-          Delete Team
-        </Button>
-      </StyledTableCell> */}
     </StyledTableRow>
   );
 };
