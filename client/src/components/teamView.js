@@ -1,18 +1,24 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { getCookie } from "../utils/main";
-import { LINEUP } from "../utils/main";
+// import { LINEUP } from "../utils/main";
 import "../styles/teamView.css";
 import PlayerCardSmall from "./playerCardSmall";
 
 const TeamView = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user.data);
   const [team, setTeam] = useState(null); //! entire db data
-  const [lineup, setLineup] = useState(LINEUP); //! local state for display and logic
+  const [lineup, setLineup] = useState({
+    Goalkeeper: [],
+    Defender: [],
+    Midfielder: [],
+    Attacker: [],
+  }); //! local state for display and logic
 
   useEffect(() => {
     const getTeam = async () => {
@@ -57,14 +63,15 @@ const TeamView = () => {
         });
         if (res.status === 200) {
           toast.success(`${player.name} dropped from roster`);
-          //   const newLineup = lineup;
-          //   newLineup[player.position][index] = undefined;
-          //   setLineup(newLineup);
+          const newLineup = lineup;
+          newLineup[player.position][index] = undefined;
+          setLineup(newLineup);
+          navigate(`/teams/${team.id}/edit`);
           //! this is where I need to some how refresh the page to reflect the change
           //   try {
           //     const res = await axios({
           //       method: "GET",
-          //       url: `/teams/${id}`,
+          //       url: `/teams/${team.id}`,
           //       headers: {
           //         "Content-Type": "application/json",
           //         "X-CSRF-TOKEN": getCookie("csrf_access_token"),

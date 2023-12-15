@@ -51,6 +51,7 @@ export const LINEUP = {
   Midfielder: [],
   Attacker: [],
 };
+
 export const POSITIONS = [
   "Goalkeeper",
   "Defender",
