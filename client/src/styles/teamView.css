@@ -1,0 +1,5 @@
+.roster-grid {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: 50px 100px;
+}

@@ -27,7 +27,7 @@ const StyledTableCell = styled(TableCell)(() => ({
 
 const POSITIONS = ["Goalkeeper", "Defender", "Midfielder", "Attacker"];
 
-const AllPlayersTable = ({ rosterCheck }) => {
+const AllPlayersTable = ({ handleRoster }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.data);
@@ -56,7 +56,7 @@ const AllPlayersTable = ({ rosterCheck }) => {
         data_num: player.id,
         team_id: id,
       };
-      if (!rosterCheck(player.position)) {
+      if (!handleRoster(player)) {
         return;
       }
       try {

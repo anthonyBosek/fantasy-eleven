@@ -45,7 +45,14 @@ export const randomThumb = () => {
   return thumbs[Math.floor(Math.random() * thumbs.length)];
 };
 
-export const SPOTS = [
+export const LINEUP = {
+  Goalkeeper: [],
+  Defender: [],
+  Midfielder: [],
+  Attacker: [],
+};
+
+export const POSITIONS = [
   "Goalkeeper",
   "Defender",
   "Defender",
