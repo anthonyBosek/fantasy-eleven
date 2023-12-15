@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from flask_jwt_enxtended import jwt_required
+from flask_jwt_extended import jwt_required
 from config import db
 from models.matchup import Matchup
 from schemas.matchup_schema import MatchupSchema
