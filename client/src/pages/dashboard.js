@@ -82,11 +82,13 @@ const Dashboard = () => {
         try {
           const res = await axios.get("/leagues");
           setLeagues(res.data);
+          setTeams((prev) => prev.filter((team) => team.league_id !== id));
         } catch (error) {
           toast.error(error.message);
         }
       }
       toast.success("League deleted");
+      navigate(`/users/${user.id}/dashboard/`);
     } catch (error) {
       toast.error(error.message);
     }

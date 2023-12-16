@@ -27,7 +27,7 @@ const StyledTableCell = styled(TableCell)(() => ({
 
 const POSITIONS = ["Goalkeeper", "Defender", "Midfielder", "Attacker"];
 
-const AllPlayersTable = ({ handleRoster }) => {
+const AllPlayersTable = ({ handleTeamUpdate }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.data);
@@ -56,9 +56,6 @@ const AllPlayersTable = ({ handleRoster }) => {
         data_num: player.id,
         team_id: id,
       };
-      if (!handleRoster(player)) {
-        return;
-      }
       try {
         const res = await axios({
           method: "POST",
@@ -71,7 +68,8 @@ const AllPlayersTable = ({ handleRoster }) => {
         });
         console.log(res.data);
         toast.success(`${player.name} added to roster`);
-        navigate(`/users/${user.id}/dashboard/`);
+        handleTeamUpdate(res.data);
+        // navigate(`/users/${user.id}/dashboard/`);
       } catch (err) {
         toast.error(err.message);
       }

@@ -16,7 +16,7 @@ class Teams(Resource):
         except Exception as e:
             return {"message": str(e)}, 500
 
-    @jwt_required
+    # @jwt_required
     def post(self):
         try:
             data = request.json

@@ -6,8 +6,6 @@ import { clearErrors as clearUserErrors } from "./features/user/userSlice";
 import { fetchCurrentUser } from "./features/user/userSlice";
 import Header from "./components/header";
 import Nav from "./components/navbar";
-import MyResponsiveBar from "./components/graph";
-import { data } from "./assets/media/chart";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -51,11 +49,7 @@ const App = () => {
       <Toaster />
       <Header />
       <Nav />
-      <div style={{ height: "500px", width: "500px" }}>
-        <MyResponsiveBar data={data} />
-      </div>
-
-      {/* <Outlet /> */}
+      <Outlet />
     </>
   );
 };
