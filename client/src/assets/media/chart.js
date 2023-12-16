@@ -12,11 +12,11 @@ export const data = [
 
   {
     Player: "AD",
-    "Career Assists": 177,
+    "Career Assists": Math.floor(Math.random() * 50),
     "Career AssistsColor": "#f61a71",
-    "Career Goals": 87,
+    "Career Goals": Math.floor(Math.random() * 50),
     "Career GoalsColor": "#ff311e",
-    "Avg. Minutes": 56,
+    "Avg. Minutes": Math.floor(Math.random() * 50),
     "Avg. MinutesColor": "#dd16c0",
   },
   //   {

@@ -40,6 +40,8 @@ const TeamForm = () => {
   }, [team_id]);
 
   const handleFormSubmit = async (values) => {
+    console.log("values", values);
+    console.log("team_id", team_id);
     if (!team_id) {
       values.owner_id = user.id;
       values.league_id = id;

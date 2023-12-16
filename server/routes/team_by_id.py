@@ -1,5 +1,6 @@
 from flask import request
 from flask_restful import Resource
+from flask_jwt_extended import jwt_required
 from config import db
 from models.team import Team
 from schemas.team_schema import TeamSchema
@@ -17,6 +18,7 @@ class TeamById(Resource):
         except Exception as e:
             return {"message": str(e)}, 500
 
+    @jwt_required
     def patch(self, id):
         if team := db.session.get(Team, id):
             try:
@@ -30,6 +32,7 @@ class TeamById(Resource):
                 return {"message": str(e)}, 400
         return {"message": "Team not found"}, 404
 
+    @jwt_required
     def delete(self, id):
         if team := db.session.get(Team, id):
             try:

@@ -13,7 +13,8 @@ const MyResponsiveBar = ({ data /* see data tab */ }) => (
     keys={["Career Goals", "Career Assists", "Avg. Minutes"]}
     indexBy="Player"
     margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-    padding={0.3}
+    // padding={0.3}
+    innerPadding={20}
     groupMode="grouped"
     valueScale={{ type: "linear" }}
     indexScale={{ type: "band", round: true }}

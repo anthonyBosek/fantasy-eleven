@@ -7,6 +7,9 @@ import { getCookie } from "../utils/main";
 // import { LINEUP } from "../utils/main";
 import "../styles/teamView.css";
 import PlayerCardSmall from "./playerCardSmall";
+// ---------------------------------------------------------------
+import AllPlayersTable from "./playerView";
+// ---------------------------------------------------------------
 
 const TeamView = () => {
   const { id } = useParams();
@@ -19,6 +22,9 @@ const TeamView = () => {
     Midfielder: [],
     Attacker: [],
   }); //! local state for display and logic
+  // ---------------------------------------------------------------
+  const [addToggle, setAddToggle] = useState(false);
+  // ---------------------------------------------------------------
 
   useEffect(() => {
     const getTeam = async () => {
@@ -46,6 +52,61 @@ const TeamView = () => {
       getTeam();
     }
   }, [id]);
+
+  // ----
+  const handleAdd = () => {
+    setAddToggle(!addToggle);
+  };
+  const handleTeamUpdate = (player) => {
+    // locate first undefined position, then replace with player, use setLineup to update state and trigger re-render
+    // go to array at player.position, find first undefined, replace with player
+    // setLineup((prev) => {
+    //   const position = player.position;
+    //   const newArr = [];
+    //   let used = false;
+    //   for (let i = 0; i < prev[position].length; i++) {
+    //     if (prev[position][i] === undefined && !used) {
+    //       newArr.push(player);
+    //       used = true;
+    //     } else {
+    //       newArr.push(prev[position][i]);
+    //     }
+    //   }
+    //   return {
+    //     ...prev,
+    //     [position]: newArr,
+    //   };
+    // });
+    // const position = player.position;
+    // const newArr = [];
+    // let used = false;
+    // for (let i = 0; i < lineup[position].length; i++) {
+    //   if (lineup[position][i] === undefined && !used) {
+    //     newArr.push(player);
+    //     used = true;
+    //   } else {
+    //     newArr.push(lineup[position][i]);
+    //   }
+    // }
+    // setLineup((prev) => ({
+    //   ...prev,
+    //   [position]: newArr,
+    // }));
+    // const index = lineup[player.position].indexOf(undefined);
+    // setLineup((prev) => ({
+    //   ...prev,
+    //   [player.position]: [
+    //     ...prev[player.position].slice(0, index),
+    //     player,
+    //     ...prev[player.position].slice(index + 1),
+    //   ],
+    // }));
+    setLineup((prev) => ({
+      ...prev,
+      [player.position]: [...prev[player.position], player],
+    }));
+  };
+  // ---------
 
   const handleDrop = (id) => {
     // get player data and index from lineup -> then empty that index in lineup and update state
@@ -95,7 +156,7 @@ const TeamView = () => {
     dropPlayer();
   };
 
-  const handleAdd = () => {};
+  // const handleAdd = () => {};
 
   const currentLineup = () => {
     const p = { Goalkeeper: 1, Defender: 4, Midfielder: 3, Attacker: 3 };
@@ -140,6 +201,9 @@ const TeamView = () => {
             <div className="roster-grid-at">Attacker</div>
             {currentLineup()}
           </div>
+          <hr />
+          <button onClick={handleAdd}>Add Player</button>
+          {addToggle && <AllPlayersTable handleTeamUpdate={handleTeamUpdate} />}
         </>
       )}
     </div>

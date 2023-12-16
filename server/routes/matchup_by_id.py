@@ -1,5 +1,6 @@
 from flask import request
 from flask_restful import Resource
+from flask_jwt_extended import jwt_required
 from config import db
 from models.matchup import Matchup
 from schemas.matchup_schema import MatchupSchema
@@ -17,6 +18,7 @@ class MatchupById(Resource):
         except Exception as e:
             return {"message": str(e)}, 500
 
+    @jwt_required()
     def patch(self, id):
         if matchup := db.session.get(Matchup, id):
             try:
@@ -30,6 +32,7 @@ class MatchupById(Resource):
                 return {"message": str(e)}, 400
         return {"message": "Matchup not found"}, 404
 
+    @jwt_required()
     def delete(self, id):
         if matchup := db.session.get(Matchup, id):
             try:

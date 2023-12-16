@@ -54,7 +54,7 @@ const LeagueCard = ({ isOwn, league, handleAdd, handleEdit, handleDelete }) => {
                     variant="contained"
                     onClick={() => handleDelete(league.id)}
                   >
-                    Delete lEague
+                    Delete League
                   </Button>
                 </>
               )}

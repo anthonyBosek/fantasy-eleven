@@ -5,6 +5,8 @@ import Grid from "@mui/material/Grid";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import MyResponsiveBar from "./graph";
+import { data } from "../assets/media/chart";
 
 const TeamCard = ({ team, venue }) => {
   return (
@@ -17,7 +19,7 @@ const TeamCard = ({ team, venue }) => {
       <Card sx={{ display: "flex", width: "35vw" }}>
         <CardMedia
           component="img"
-          sx={{ width: 151 }}
+          sx={{ width: 151, height: 151 }}
           image={team.logo}
           alt={team.code}
         />
@@ -38,6 +40,9 @@ const TeamCard = ({ team, venue }) => {
             sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}
           ></Box>
         </Box>
+        <div style={{ height: "500px", width: "500px" }}>
+          <MyResponsiveBar data={data} />
+        </div>
       </Card>
     </Grid>
   );
